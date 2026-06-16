@@ -1,6 +1,7 @@
 import { portfolio } from "@/data/portfolio";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import LiveSiteMockboard from "@/components/LiveSiteMockboard";
 import About from "@/components/About";
 import WorkSection from "@/components/WorkSection";
 import RecognitionSection from "@/components/RecognitionSection";
@@ -17,8 +18,14 @@ export default function Page() {
       <Header />
       <main className="min-h-screen">
         <Hero />
+        
         <About />
         <WorkSection />
+        <LiveSiteMockboard
+          url={portfolio.liveSiteUrl}
+          caption="LIVE PREVIEW / EDOKANDAR.CLOUD"
+          subcaption="REAL-TIME IFRAME · SCROLL TO EXPLORE"
+        />
         <RecognitionSection />
         <GallerySection />
         <LeadershipSection roles={portfolio.leadership} />

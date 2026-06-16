@@ -143,3 +143,54 @@ body {
 .brutal-hover:active {
   box-shadow: 2px 2px 0 0 var(--foreground);
 }
+
+/* Hero photo frame — wrapper that just defines the photo well and the
+   brutalist drop shadow. The 4-color ring is painted by a sibling
+   `.hero-photo-ring` element that absolutely positions itself around
+   the well, so the colors hug the photo's aspect ratio on all four
+   edges (no uneven side-strips). */
+.hero-photo-frame {
+  position: relative;
+  width: 100%;
+  background: var(--background);
+  box-shadow: 6px 6px 0 0 var(--accent);
+  overflow: hidden;
+}
+.hero-photo-frame > .hero-photo-inner {
+  position: absolute;
+  /* Inset so the 4-color ring SVG (between the wrapper and the well)
+     is visible as a colored frame around the photo on all four sides. */
+  inset: 14px;
+  overflow: hidden;
+  background: var(--background);
+  z-index: 1;
+}
+
+/* The 4-color ring lives on a dedicated element that sits behind the
+   photo well. It's a stroked SVG (4 line segments — one per edge)
+   sized to fill the photo well exactly, so the colors wrap the frame
+   as a true rectangular ring — top, right, bottom, left. Autoplay:
+   the SVG rotates infinitely so the four Google brand colors cycle
+   around the frame. Reduced-motion users get a static ring. */
+.hero-photo-ring {
+  position: absolute;
+  inset: 0;          /* fill the photo well, not the wrapper outline */
+  z-index: 2;        /* sit above the inner well so the colored band is visible */
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  animation: hero-ring-spin 12s linear infinite;
+}
+/* The SVG itself must claim the absolutely-positioned box; without
+   this it has no intrinsic size and the strokes collapse to 0. */
+.hero-photo-ring > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo-ring { animation: none; }
+}
+@keyframes hero-ring-spin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}

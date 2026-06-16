@@ -19,6 +19,8 @@ export type Award = {
 export type LeadershipRole = {
   title: string;
   org: string;
+  /** Optional time range shown on the timeline (e.g. "2024 — Present"). */
+  period?: string;
   bullets: string[];
 };
 
@@ -36,6 +38,8 @@ export type Portfolio = {
   phone: string;
   linkedin: string;
   resumeUrl: string;
+  /** Live site embedded in the MacBook Mockboard section. */
+  liveSiteUrl: string;
   about: string[]; // paragraphs
   projects: Project[];
   awards: Award[];
@@ -59,6 +63,7 @@ export const portfolio: Portfolio = {
   phone: "01847556023",
   linkedin: "https://www.linkedin.com/in/curl-kawsar/",
   resumeUrl: "/resume_kawsar.pdf",
+  liveSiteUrl: "https://edokandar.cloud/",
 
   about: [
     "I'm a language-agnostic engineer with experience across the stack. My journey began with frontend development, and I'm now deep in the world of backend systems. I primarily work with JavaScript, while staying sharp in Python and actively learning DevOps. I choose stacks by fit — not by familiarity — and care more about correctness, observability, and shipping than about the next shiny thing.",
@@ -139,6 +144,7 @@ export const portfolio: Portfolio = {
     {
       title: "General Secretary (GS)",
       org: "BAIUST Computer Club (BCC)",
+      period: "2024 — Present",
       bullets: [
         "Launched the Software Intern Program, coaching 102 students to ship 6 software modules for the campus.",
         "Hosting twice-weekly \"Engineering Adda\" tech round-tables (avg 40 attendees), boosting club retention.",
@@ -149,6 +155,7 @@ export const portfolio: Portfolio = {
     {
       title: "Organizer, Mentor, Problem Setter",
       org: "BAIUST CSE FEST 2025",
+      period: "2025",
       bullets: [
         "Organized a 24-hour hackathon, IUPC, E-football, Typing Contest, and ICT Quiz for 600+ participants.",
         "Worked closely with faculty to plan and execute the event end-to-end.",
@@ -159,6 +166,7 @@ export const portfolio: Portfolio = {
     {
       title: "Team Lead",
       org: "Stars Intern Program, BAIUST",
+      period: "2024",
       bullets: [
         "Bus Tracker: real-time tracking for 12 buses with live map and ETA for students and admins.",
         "Treasurer Branch Reconciliation: automated matching of bank statements and student payments with instant mismatch alerts and ready-to-sign reports.",

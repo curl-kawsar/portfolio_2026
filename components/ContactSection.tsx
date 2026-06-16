@@ -8,7 +8,7 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-20"
+      className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
       <SectionHeading index="07" label="Contact" />
 

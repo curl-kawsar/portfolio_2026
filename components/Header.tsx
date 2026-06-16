@@ -65,12 +65,42 @@ export default function Header() {
     return () => obs.disconnect();
   }, []);
 
+  // Resolve the active NAV entry once so the progress strip and the
+  // sidebar can both render against the same source of truth.
+  const activeEntry =
+    NAV.find((n) => n.href === active) ?? NAV[0];
+  const activeIdx = NAV.indexOf(activeEntry) + 1;
+  const totalSections = NAV.length;
+
   return (
     <>
+      {/* Top scroll-progress strip — 1px mono line that reports the
+          current section number, slash, total, and label. Updates live
+          from the same IntersectionObserver scroll-spy that drives the
+          sidebar's active state, so both stay in sync. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed top-0 left-0 right-0 z-[60] hidden lg:flex items-center gap-2 border-b-2 border-foreground bg-background/95 backdrop-blur px-4 py-1.5 font-mono text-[10px] tracking-widest uppercase select-none"
+      >
+        <span className="font-bold">
+          {String(activeIdx).padStart(2, "0")}
+        </span>
+        <span className="opacity-30">/</span>
+        <span className="opacity-60">
+          {String(totalSections).padStart(2, "0")}
+        </span>
+        <span className="opacity-30">·</span>
+        <span className="font-bold">{activeEntry.label}</span>
+        <span className="ml-auto inline-flex items-center gap-1.5 opacity-50">
+          <span className="inline-block h-1.5 w-1.5 bg-accent" />
+          SCROLL
+        </span>
+      </div>
+
       {/* Desktop floating sidebar */}
       <aside
         aria-label="Primary"
-        className="hidden lg:flex fixed left-4 top-24 z-50 flex-col gap-3 select-none"
+        className="hidden lg:flex fixed left-4 top-28 z-50 flex-col gap-3 select-none"
       >
         {/* Brand block */}
         <a

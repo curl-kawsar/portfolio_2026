@@ -9,7 +9,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-20"
+      className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
       <SectionHeading index="01" label="About" />
 
