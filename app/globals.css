@@ -31,19 +31,6 @@
   --shadow-brutal-accent: 6px 6px 0 0 var(--accent);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #f5f1e8;
-    --muted: #a8a8a8;
-    --border: #f5f1e8;
-    --accent: #ff5b1f;
-    --card: var(--background);
-    --grid-line: rgba(245, 241, 232, 0.18);
-    --grid-line-major: rgba(245, 241, 232, 0.38);
-  }
-}
-
 * {
   border-radius: 0 !important; /* brutalism: no rounded corners, anywhere */
 }
