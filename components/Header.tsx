@@ -1,0 +1,177 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import {
+  User,
+  Briefcase,
+  Trophy,
+  Users,
+  Wrench,
+  GraduationCap,
+  Mail,
+  X,
+  ArrowUpRight,
+  Terminal,
+} from "lucide-react";
+import { portfolio } from "@/data/portfolio";
+
+const NAV = [
+  { href: "#about", label: "About", n: "01", Icon: User },
+  { href: "#work", label: "Work", n: "02", Icon: Briefcase },
+  { href: "#recognition", label: "Awards", n: "03", Icon: Trophy },
+  { href: "#leadership", label: "Lead", n: "04", Icon: Users },
+  { href: "#skills", label: "Stack", n: "05", Icon: Wrench },
+  { href: "#education", label: "Edu", n: "06", Icon: GraduationCap },
+  { href: "#contact", label: "Mail", n: "07", Icon: Mail },
+];
+
+/**
+ * Floating left sidebar nav — desktop only.
+ * Sits flush to the left edge, sticks to top, and stays out of the
+ * content's way. Mobile gets a compact bottom bar.
+ */
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState<string>("#about");
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const sectionEls = NAV.map((n) =>
+      document.querySelector(n.href) as HTMLElement | null
+    ).filter(Boolean) as HTMLElement[];
+
+    if (!sectionEls.length) return;
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const intersecting = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (intersecting[0]) {
+          setActive("#" + intersecting[0].target.id);
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+    );
+
+    sectionEls.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <>
+      {/* Desktop floating sidebar */}
+      <aside
+        aria-label="Primary"
+        className="hidden lg:flex fixed left-4 top-24 z-50 flex-col gap-3 select-none"
+      >
+        {/* Brand block */}
+        <a
+          href="#top"
+          className="group relative border-[3px] border-foreground bg-card brutal-shadow w-14 h-14 inline-flex flex-col items-center justify-center text-center font-mono uppercase font-bold"
+          aria-label={`${portfolio.name} — back to top`}
+        >
+          <Terminal className="h-5 w-5" strokeWidth={2.5} />
+          <span className="mt-0.5 leading-none tracking-widest text-[9px]">
+            {portfolio.name.split(" ").slice(-1)[0].slice(0, 4)}
+          </span>
+
+          {/* Hover tooltip */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute left-full ml-3 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1 whitespace-nowrap border-2 border-foreground bg-background px-2 py-1 font-mono text-[10px] tracking-widest uppercase shadow-[4px_4px_0_0_var(--foreground)]"
+          >
+            <ArrowUpRight className="h-3 w-3" strokeWidth={3} />
+            BACK_TO_TOP
+          </span>
+        </a>
+
+        {/* Nav cells */}
+        <ul className="flex flex-col border-[3px] border-foreground bg-card brutal-shadow">
+          {NAV.map(({ href, label, n, Icon }) => {
+            const isActive = active === href;
+            return (
+              <li
+                key={href}
+                className="group relative border-b-2 border-foreground last:border-b-0"
+              >
+                <a
+                  href={href}
+                  className={[
+                    "w-12 h-12 inline-flex items-center justify-center",
+                    isActive
+                      ? "bg-foreground text-background"
+                      : "bg-card text-foreground hover:bg-accent",
+                  ].join(" ")}
+                  aria-current={isActive ? "page" : undefined}
+                  aria-label={`${n} ${label}`}
+                >
+                  <Icon className="h-5 w-5" strokeWidth={2.5} />
+                </a>
+                {/* Hover label — flies out to the right */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3 hidden group-hover:flex items-center gap-1.5 whitespace-nowrap border-2 border-foreground bg-background px-2.5 py-1.5 font-mono text-[10.5px] tracking-widest uppercase shadow-[4px_4px_0_0_var(--foreground)]"
+                >
+                  <span className="opacity-60">{n}</span>
+                  <span className="opacity-30">/</span>
+                  <span className="font-bold">{label}</span>
+                  {isActive && (
+                    <ArrowUpRight
+                      className="h-3 w-3 ml-0.5 text-accent"
+                      strokeWidth={3}
+                    />
+                  )}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* Status footer — current section / total */}
+        <div className="border-2 border-foreground bg-card brutal-shadow w-14 py-1.5 font-mono uppercase text-center font-bold text-[9px]">
+          <div className="leading-none tracking-widest">
+            {String(NAV.findIndex((n) => n.href === active) + 1).padStart(2, "0")}
+          </div>
+          <div className="mt-0.5 leading-none tracking-widest opacity-50">/ 07</div>
+        </div>
+      </aside>
+
+      {/* Mobile bottom bar — minimal pill */}
+      <nav
+        aria-label="Primary mobile"
+        className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 border-[3px] border-foreground bg-card brutal-shadow font-mono"
+      >
+        <ul className="flex items-stretch divide-x-2 divide-foreground">
+          {NAV.map(({ href, label, n, Icon }) => {
+            const isActive = active === href;
+            return (
+              <li key={href}>
+                <a
+                  href={href}
+                  className={[
+                    "w-11 h-11 inline-flex items-center justify-center",
+                    isActive
+                      ? "bg-foreground text-background"
+                      : "bg-card text-foreground active:bg-accent",
+                  ].join(" ")}
+                  aria-current={isActive ? "page" : undefined}
+                  aria-label={`${n} ${label}`}
+                >
+                  <Icon className="h-4 w-4" strokeWidth={2.5} />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </>
+  );
+}

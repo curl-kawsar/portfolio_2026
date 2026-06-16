@@ -1,26 +1,158 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brutalist palette — pure paper white, pure ink black, single accent */
+  --background: #f5f1e8;     /* warm off-white paper */
+  --foreground: #0a0a0a;     /* pure ink */
+  --muted: #4a4a4a;
+  --border: #0a0a0a;
+  --accent: #ff5b1f;         /* signal orange — used very sparingly */
+  --card: var(--background);  /* solid panel fill — grid sits behind */
+
+  /* Grid backdrop — used by the body and the fixed background layer */
+  --grid-line: rgba(10, 10, 10, 0.22);
+  --grid-size: 24px;
+  --grid-line-major: rgba(10, 10, 10, 0.45);
+  --grid-size-major: 96px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-card: var(--card);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --radius-none: 0px;
+  --shadow-brutal: 6px 6px 0 0 var(--foreground);
+  --shadow-brutal-sm: 3px 3px 0 0 var(--foreground);
+  --shadow-brutal-accent: 6px 6px 0 0 var(--accent);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #f5f1e8;
+    --muted: #a8a8a8;
+    --border: #f5f1e8;
+    --accent: #ff5b1f;
+    --card: var(--background);
+    --grid-line: rgba(245, 241, 232, 0.18);
+    --grid-line-major: rgba(245, 241, 232, 0.38);
   }
 }
 
+* {
+  border-radius: 0 !important; /* brutalism: no rounded corners, anywhere */
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  min-height: 100dvh;
+
+  /* Grid backdrop — painted directly on body so the layers are
+     always visible behind panels (no z-index / pseudo-element
+     surprises). */
+  background-color: var(--background);
+  background-image:
+    /* major grid — every 4th line is darker for a drafting feel */
+    linear-gradient(
+      to right,
+      var(--grid-line-major) 0,
+      var(--grid-line-major) 1px,
+      transparent 1px,
+      transparent var(--grid-size-major)
+    ),
+    linear-gradient(
+      to bottom,
+      var(--grid-line-major) 0,
+      var(--grid-line-major) 1px,
+      transparent 1px,
+      transparent var(--grid-size-major)
+    ),
+    /* fine grid — base lines */
+    linear-gradient(
+      to right,
+      var(--grid-line) 0,
+      var(--grid-line) 1px,
+      transparent 1px,
+      transparent var(--grid-size)
+    ),
+    /* fine grid — base lines */
+    linear-gradient(
+      to bottom,
+      var(--grid-line) 0,
+      var(--grid-line) 1px,
+      transparent 1px,
+      transparent var(--grid-size)
+    );
+  background-repeat: repeat;
+  background-attachment: fixed;
+}
+
+::selection {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Reveal utility — animations removed: content is always visible. */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Brutalist utilities */
+.brutal-border {
+  border: 2px solid var(--border);
+}
+.brutal-border-thick {
+  border: 3px solid var(--border);
+}
+.brutal-shadow {
+  box-shadow: 6px 6px 0 0 var(--foreground);
+}
+.brutal-shadow-sm {
+  box-shadow: 3px 3px 0 0 var(--foreground);
+}
+.brutal-shadow-accent {
+  box-shadow: 6px 6px 0 0 var(--accent);
+}
+.brutal-shadow-accent-sm {
+  box-shadow: 3px 3px 0 0 var(--accent);
+}
+
+.brutal-hover:hover {
+  /* animations removed: instant hover state */
+  box-shadow: 8px 8px 0 0 var(--foreground);
+}
+.brutal-hover:active {
+  box-shadow: 2px 2px 0 0 var(--foreground);
 }
