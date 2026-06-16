@@ -4,6 +4,7 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import WorkSection from "@/components/WorkSection";
 import RecognitionSection from "@/components/RecognitionSection";
+import GallerySection from "@/components/GallerySection";
 import LeadershipSection from "@/components/LeadershipSection";
 import SkillsSection from "@/components/SkillsSection";
 import EducationSection from "@/components/EducationSection";
@@ -19,6 +20,7 @@ export default function Page() {
         <About />
         <WorkSection />
         <RecognitionSection />
+        <GallerySection />
         <LeadershipSection roles={portfolio.leadership} />
         <SkillsSection groups={portfolio.skills} />
         <EducationSection />
