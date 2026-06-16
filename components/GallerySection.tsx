@@ -53,7 +53,7 @@ export default function GallerySection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`View photo ${i + 1} in full size`}
-                  className="absolute right-2 bottom-2 z-10 inline-flex items-center gap-1 border-[3px] border-foreground bg-background text-foreground px-2 py-1 font-mono text-[10px] tracking-widest uppercase opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity brutal-shadow"
+                  className="absolute right-2 bottom-2 z-10 inline-flex items-center gap-1 border-[3px] border-foreground bg-background text-foreground px-2 py-1 font-mono text-[10px] tracking-widest uppercase opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 transition-opacity brutal-shadow"
                 >
                   View
                 </a>
