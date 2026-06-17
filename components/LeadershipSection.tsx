@@ -90,7 +90,7 @@ export default function LeadershipSection({ roles }: Props) {
       id="leadership"
       className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
-      <SectionHeading index="07" label="Leadership" />
+      <SectionHeading index="08" label="Leadership" />
 
       {/* Timeline container. The vertical spine is a single 3px ink
           line on the left at all breakpoints. Each role card sits to

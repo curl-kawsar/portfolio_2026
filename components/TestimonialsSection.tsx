@@ -15,7 +15,7 @@ export default function TestimonialsSection() {
       id="testimonials"
       className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
-      <SectionHeading index="10" label="Testimonials" />
+      <SectionHeading index="07" label="Testimonials" />
 
       <Reveal>
         <div className="mb-5 flex flex-col gap-2 border-[3px] border-foreground bg-card px-4 py-3 brutal-shadow sm:flex-row sm:items-center sm:justify-between">
