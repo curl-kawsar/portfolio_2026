@@ -14,6 +14,7 @@
   --grid-size: 24px;
   --grid-line-major: rgba(10, 10, 10, 0.45);
   --grid-size-major: 96px;
+  --mobile-dock-height: 2.75rem;
 }
 
 @theme inline {
@@ -39,6 +40,44 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
   -webkit-text-size-adjust: 100%;
+}
+
+@media (max-width: 1023px) {
+  html {
+    scroll-padding-top: 2.25rem;
+    scroll-padding-bottom: calc(
+      var(--mobile-dock-height) + env(safe-area-inset-bottom, 0px) + 0.5rem
+    );
+  }
+
+  body {
+    padding-bottom: calc(
+      var(--mobile-dock-height) + env(safe-area-inset-bottom, 0px)
+    );
+  }
+}
+
+.mobile-dock {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --mobile-dock-height: 2.75rem;
+  }
+
+  html {
+    scroll-padding-top: 2.25rem;
+    scroll-padding-bottom: calc(
+      var(--mobile-dock-height) + env(safe-area-inset-bottom, 0px) + 0.5rem
+    );
+  }
+
+  body {
+    padding-bottom: calc(
+      var(--mobile-dock-height) + env(safe-area-inset-bottom, 0px)
+    );
+  }
 }
 
 body {

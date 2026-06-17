@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   User,
   Briefcase,
@@ -30,13 +30,45 @@ const NAV = [
   { href: "#contact", label: "Mail", n: "12", Icon: Mail },
 ];
 
-/**
- * Floating left sidebar nav — desktop only.
- * Sits flush to the left edge, sticks to top, and stays out of the
- * content's way. Mobile gets a compact bottom bar.
- */
 export default function Header() {
   const [active, setActive] = useState<string>("#about");
+  const [dockIndicator, setDockIndicator] = useState({ left: 0, width: 0 });
+  const dockRef = useRef<HTMLUListElement>(null);
+  const dockItemRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+
+  const updateDockIndicator = useCallback(() => {
+    const dock = dockRef.current;
+    const activeEl = dockItemRefs.current[active];
+    if (!dock || !activeEl) return;
+
+    setDockIndicator({
+      left: activeEl.offsetLeft,
+      width: activeEl.offsetWidth,
+    });
+  }, [active]);
+
+  const scrollToSection = useCallback((href: string) => {
+    const id = href.replace("#", "");
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)")
+      .matches
+      ? "auto"
+      : "smooth";
+
+    setActive(href);
+    target.scrollIntoView({ behavior, block: "start" });
+    window.history.replaceState(null, "", href);
+  }, []);
+
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      e.preventDefault();
+      scrollToSection(href);
+    },
+    [scrollToSection]
+  );
 
   useEffect(() => {
     const sectionEls = NAV.map((n) =>
@@ -61,26 +93,46 @@ export default function Header() {
     return () => obs.disconnect();
   }, []);
 
-  // Resolve the active NAV entry once so the progress strip and the
-  // sidebar can both render against the same source of truth.
-  const activeEntry =
-    NAV.find((n) => n.href === active) ?? NAV[0];
+  useEffect(() => {
+    updateDockIndicator();
+    const activeEl = dockItemRefs.current[active];
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)")
+      .matches
+      ? "auto"
+      : "smooth";
+    activeEl?.scrollIntoView({
+      behavior,
+      inline: "center",
+      block: "nearest",
+    });
+  }, [active, updateDockIndicator]);
+
+  useEffect(() => {
+    const dock = dockRef.current;
+    if (!dock) return;
+
+    const onScroll = () => updateDockIndicator();
+    dock.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateDockIndicator);
+
+    return () => {
+      dock.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateDockIndicator);
+    };
+  }, [updateDockIndicator]);
+
+  const activeEntry = NAV.find((n) => n.href === active) ?? NAV[0];
   const activeIdx = NAV.indexOf(activeEntry) + 1;
   const totalSections = NAV.length;
 
   return (
     <>
-      {/* Top scroll-progress strip — 1px mono line that reports the
-          current section number, slash, total, and label. Updates live
-          from the same IntersectionObserver scroll-spy that drives the
-          sidebar's active state, so both stay in sync. */}
+      {/* Desktop top strip */}
       <div
         aria-hidden
         className="pointer-events-none fixed top-0 left-0 right-0 z-[60] hidden lg:flex items-center gap-1.5 border-b-2 border-foreground bg-background/95 backdrop-blur px-3 py-1 font-mono text-[9px] tracking-widest uppercase select-none"
       >
-        <span className="font-bold">
-          {String(activeIdx).padStart(2, "0")}
-        </span>
+        <span className="font-bold">{String(activeIdx).padStart(2, "0")}</span>
         <span className="opacity-30">/</span>
         <span className="opacity-60">
           {String(totalSections).padStart(2, "0")}
@@ -93,20 +145,18 @@ export default function Header() {
         </span>
       </div>
 
-      {/* Desktop floating sidebar */}
+      {/* Desktop sidebar */}
       <aside
         aria-label="Primary"
         className="hidden lg:flex fixed left-3 top-[4.5rem] z-50 flex-col gap-1.5 select-none pointer-events-none"
       >
-        {/* Brand block */}
         <a
           href="#top"
+          onClick={(e) => handleNavClick(e, "#top")}
           className="pointer-events-auto group relative border-2 border-foreground bg-card brutal-shadow-sm w-9 h-9 inline-flex items-center justify-center font-mono uppercase font-bold"
           aria-label={`${portfolio.name} — back to top`}
         >
           <Terminal className="h-3.5 w-3.5" strokeWidth={2.5} />
-
-          {/* Hover tooltip */}
           <span
             aria-hidden
             className="pointer-events-none absolute left-full ml-2 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1 whitespace-nowrap border-2 border-foreground bg-background px-1.5 py-0.5 font-mono text-[9px] tracking-widest uppercase shadow-[3px_3px_0_0_var(--foreground)]"
@@ -116,7 +166,6 @@ export default function Header() {
           </span>
         </a>
 
-        {/* Nav cells */}
         <ul className="pointer-events-auto flex flex-col border-2 border-foreground bg-card brutal-shadow-sm max-h-[min(72vh,34rem)] overflow-y-auto overscroll-contain">
           {NAV.map(({ href, label, n, Icon }) => {
             const isActive = active === href;
@@ -127,8 +176,9 @@ export default function Header() {
               >
                 <a
                   href={href}
+                  onClick={(e) => handleNavClick(e, href)}
                   className={[
-                    "w-9 h-9 inline-flex items-center justify-center",
+                    "w-9 h-9 inline-flex items-center justify-center transition-colors duration-300",
                     isActive
                       ? "bg-foreground text-background"
                       : "bg-card text-foreground hover:bg-accent",
@@ -138,7 +188,6 @@ export default function Header() {
                 >
                   <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
                 </a>
-                {/* Hover label — flies out to the right */}
                 <span
                   aria-hidden
                   className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 hidden group-hover:flex items-center gap-1 whitespace-nowrap border-2 border-foreground bg-background px-2 py-1 font-mono text-[9px] tracking-widest uppercase shadow-[3px_3px_0_0_var(--foreground)]"
@@ -158,57 +207,81 @@ export default function Header() {
           })}
         </ul>
 
-        {/* Status footer — current section / total */}
         <div className="pointer-events-auto border-2 border-foreground bg-card brutal-shadow-sm w-9 py-1 font-mono uppercase text-center font-bold text-[8px] leading-none tracking-widest">
-          <div>
-            {String(NAV.findIndex((n) => n.href === active) + 1).padStart(2, "0")}
-          </div>
+          <div>{String(activeIdx).padStart(2, "0")}</div>
           <div className="mt-0.5 opacity-50">
             /{String(NAV.length).padStart(2, "0")}
           </div>
         </div>
       </aside>
 
-      {/* Mobile bottom bar — compact, horizontally scrollable */}
-      <nav
-        aria-label="Primary mobile"
-        className="lg:hidden fixed bottom-3 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-md -translate-x-1/2 border-2 border-foreground bg-card brutal-shadow-sm font-mono"
-      >
-        <ul className="flex items-stretch divide-x divide-foreground overflow-x-auto overscroll-x-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          {NAV.map(({ href, label, n, Icon }) => {
-            const isActive = active === href;
-            return (
-              <li key={href} className="shrink-0">
-                <a
-                  href={href}
-                  className={[
-                    "w-8 h-8 inline-flex items-center justify-center",
-                    isActive
-                      ? "bg-foreground text-background"
-                      : "bg-card text-foreground active:bg-accent",
-                  ].join(" ")}
-                  aria-current={isActive ? "page" : undefined}
-                  aria-label={`${n} ${label}`}
-                >
-                  <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-
-      {/* Mobile section chip — mirrors desktop progress strip */}
+      {/* Mobile top chip */}
       <div
         aria-hidden
-        className="pointer-events-none fixed top-0 left-0 right-0 z-[60] flex lg:hidden items-center justify-center gap-1.5 border-b-2 border-foreground bg-background/95 backdrop-blur px-3 py-1 font-mono text-[9px] tracking-widest uppercase select-none"
+        className="pointer-events-none fixed top-0 left-0 right-0 z-[60] flex lg:hidden items-center justify-center gap-1.5 border-b-2 border-foreground bg-background/95 backdrop-blur px-3 py-1 font-mono text-[9px] tracking-widest uppercase select-none transition-opacity duration-300"
       >
         <span className="font-bold">{String(activeIdx).padStart(2, "0")}</span>
         <span className="opacity-30">/</span>
         <span className="opacity-60">{String(totalSections).padStart(2, "0")}</span>
         <span className="opacity-30">·</span>
-        <span className="font-bold truncate max-w-[40vw]">{activeEntry.label}</span>
+        <span className="font-bold truncate max-w-[42vw] transition-all duration-300">
+          {activeEntry.label}
+        </span>
       </div>
+
+      {/* Mobile docknav */}
+      <nav
+        aria-label="Primary mobile"
+        className="mobile-dock lg:hidden fixed inset-x-0 bottom-0 z-50 border-t-2 border-foreground bg-background/95 backdrop-blur"
+      >
+        <div className="relative">
+          <span
+            aria-hidden
+            className="pointer-events-none absolute top-0 h-[2px] bg-accent transition-all duration-300 ease-out"
+            style={{
+              left: dockIndicator.left,
+              width: dockIndicator.width,
+            }}
+          />
+          <ul
+            ref={dockRef}
+            className="flex items-center gap-0.5 overflow-x-auto overscroll-x-contain scroll-smooth snap-x snap-mandatory px-1.5 py-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {NAV.map(({ href, label, n, Icon }) => {
+              const isActive = active === href;
+              return (
+                <li key={href} className="shrink-0 snap-center">
+                  <a
+                    ref={(el) => {
+                      dockItemRefs.current[href] = el;
+                    }}
+                    href={href}
+                    data-href={href}
+                    onClick={(e) => handleNavClick(e, href)}
+                    className={[
+                      "relative flex h-10 w-10 flex-col items-center justify-center transition-all duration-300 ease-out",
+                      "active:scale-90",
+                      isActive
+                        ? "bg-foreground text-background scale-105"
+                        : "bg-transparent text-foreground",
+                    ].join(" ")}
+                    aria-current={isActive ? "page" : undefined}
+                    aria-label={`${n} ${label}`}
+                  >
+                    <Icon
+                      className={[
+                        "h-4 w-4 transition-transform duration-300",
+                        isActive ? "scale-110" : "scale-100",
+                      ].join(" ")}
+                      strokeWidth={2.5}
+                    />
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </nav>
     </>
   );
 }
