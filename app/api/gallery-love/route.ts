@@ -37,11 +37,13 @@ export async function POST(request: Request) {
     }
 
     const result = await toggleGalleryLove(visitorId, imageKey);
+    const state = await getGalleryLoveState(visitorId);
 
     const response = NextResponse.json({
-      total: result.total,
+      total: state.total,
+      images: state.images,
       imageKey,
-      image: result.image,
+      image: state.images[imageKey] ?? result.image,
       alreadyLoved: result.alreadyLoved,
     });
 

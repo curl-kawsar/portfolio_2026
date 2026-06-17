@@ -1,83 +1,53 @@
 import type { GalleryLoveImage } from "@/lib/db";
 
-const CACHE_KEY = "portfolio_gallery_love_v1";
+const LOVED_KEY = "portfolio_gallery_loved_v1";
 
-export type GalleryLoveCache = {
-  total: number;
-  images: Record<string, GalleryLoveImage>;
-  updatedAt: number;
-};
-
-function sumCounts(images: Record<string, GalleryLoveImage>) {
-  return Object.values(images).reduce((sum, img) => sum + img.count, 0);
-}
-
-export function readGalleryLoveCache(): GalleryLoveCache | null {
-  if (typeof window === "undefined") return null;
+/** Only cache which images this visitor has loved — counts always come from the server. */
+export function readLovedImageKeys(): Set<string> {
+  if (typeof window === "undefined") return new Set();
 
   try {
-    const raw = localStorage.getItem(CACHE_KEY);
-    if (!raw) return null;
-
-    const parsed = JSON.parse(raw) as GalleryLoveCache;
-    if (
-      typeof parsed.total !== "number" ||
-      !parsed.images ||
-      typeof parsed.images !== "object"
-    ) {
-      return null;
-    }
-
-    return parsed;
+    const raw = localStorage.getItem(LOVED_KEY);
+    if (!raw) return new Set();
+    const parsed = JSON.parse(raw) as string[];
+    return new Set(Array.isArray(parsed) ? parsed : []);
   } catch {
-    return null;
+    return new Set();
   }
 }
 
-export function writeGalleryLoveCache(
-  total: number,
-  images: Record<string, GalleryLoveImage>
-) {
+export function writeLovedImageKeys(keys: Set<string>) {
   if (typeof window === "undefined") return;
 
   try {
-    const payload: GalleryLoveCache = {
-      total,
-      images,
-      updatedAt: Date.now(),
-    };
-    localStorage.setItem(CACHE_KEY, JSON.stringify(payload));
+    localStorage.setItem(LOVED_KEY, JSON.stringify([...keys]));
   } catch {
-    // ignore quota / private mode errors
+    // ignore
   }
 }
 
-export function mergeGalleryLoveCache(
+export function addLovedImageKey(imageKey: string) {
+  const keys = readLovedImageKeys();
+  keys.add(imageKey);
+  writeLovedImageKeys(keys);
+}
+
+/** Apply universal server counts; merge in local loved state only when server lacks cookie yet. */
+export function applyServerLoveState(
   serverTotal: number,
   serverImages: Record<string, GalleryLoveImage>
-) {
-  const cached = readGalleryLoveCache();
-  if (!cached) {
-    writeGalleryLoveCache(serverTotal, serverImages);
-    return { total: serverTotal, images: serverImages };
-  }
+): { total: number; images: Record<string, GalleryLoveImage> } {
+  const localLoved = readLovedImageKeys();
+  const images: Record<string, GalleryLoveImage> = { ...serverImages };
 
-  const merged: Record<string, GalleryLoveImage> = { ...serverImages };
-
-  for (const [key, cachedImage] of Object.entries(cached.images)) {
-    const serverImage = merged[key];
-    if (!serverImage) {
-      merged[key] = cachedImage;
-      continue;
+  for (const key of localLoved) {
+    const existing = images[key];
+    if (existing) {
+      images[key] = { ...existing, loved: existing.loved || true };
+    } else {
+      images[key] = { count: 0, loved: true };
     }
-
-    merged[key] = {
-      count: Math.max(serverImage.count, cachedImage.count),
-      loved: serverImage.loved || cachedImage.loved,
-    };
   }
 
-  const total = Math.max(serverTotal, sumCounts(merged));
-  writeGalleryLoveCache(total, merged);
-  return { total, images: merged };
+  return { total: serverTotal, images };
 }
