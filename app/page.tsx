@@ -11,6 +11,7 @@ import LeadershipSection from "@/components/LeadershipSection";
 import SkillsSection from "@/components/SkillsSection";
 import EducationSection from "@/components/EducationSection";
 import ReferencesSection from "@/components/ReferencesSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -32,6 +33,7 @@ export default function Page() {
         />
         <RecognitionSection />
         <GallerySection />
+        <TestimonialsSection />
         <LeadershipSection roles={portfolio.leadership} />
         <EducationSection />
         <ReferencesSection />

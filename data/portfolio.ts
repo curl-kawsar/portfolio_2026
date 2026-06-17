@@ -54,6 +54,15 @@ export type Reference = {
   email: string;
 };
 
+export type Testimonial = {
+  name: string;
+  role: string;
+  org: string;
+  quote: string;
+  /** Filename inside /public/testimonial/ (e.g. nayeem.mp4). */
+  video: string;
+};
+
 export type Portfolio = {
   name: string;
   role: string;
@@ -73,6 +82,7 @@ export type Portfolio = {
   skills: SkillGroup[];
   education: EducationEntry[];
   references: Reference[];
+  testimonials: Testimonial[];
 };
 
 export const portfolio: Portfolio = {
@@ -269,6 +279,25 @@ export const portfolio: Portfolio = {
       org: "Brac Bank, ChawkBazar",
       location: "Regional Operating Center, Cumilla",
       email: "mohammedkhorsedalam.molla@bracbank.com",
+    },
+  ],
+
+  testimonials: [
+    {
+      name: "Golam Moktader Nayeem",
+      role: "Dean (Acting), Faculty of ECE · Associate Professor, Dept. of CSE",
+      org: "BAIUST, Cumilla",
+      quote:
+        "Kawsar shows strong engineering discipline, campus leadership, and the ability to ship real systems — not just coursework.",
+      video: "nayeem.mp4",
+    },
+    {
+      name: "Md. Khorshed Alam Molla",
+      role: "Senior Manager & Head – ROC Cumilla",
+      org: "Brac Bank, ChawkBazar",
+      quote:
+        "A dependable engineer who communicates clearly, meets deadlines, and handles production pressure with composure.",
+      video: "molla.mp4",
     },
   ],
 };
