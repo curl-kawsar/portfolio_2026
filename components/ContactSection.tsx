@@ -3,6 +3,7 @@ import { LinkedinIcon } from "./icons/LinkedinIcon";
 import { portfolio } from "@/data/portfolio";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import ContactForm from "./ContactForm";
 
 export default function ContactSection() {
   return (
@@ -54,6 +55,12 @@ export default function ContactSection() {
               />
             </a>
           </div>
+        </div>
+      </Reveal>
+
+      <Reveal delay={60}>
+        <div className="mt-6">
+          <ContactForm />
         </div>
       </Reveal>
 
