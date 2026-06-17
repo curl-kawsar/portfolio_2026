@@ -1,4 +1,4 @@
-import { Building2, Check } from "lucide-react";
+import { Building2, Check, BadgeCheck, ArrowUpRight } from "lucide-react";
 import type { WorkExperience } from "@/data/portfolio";
 import { renderBoldText } from "@/lib/renderBoldText";
 import Reveal from "./Reveal";
@@ -52,6 +52,19 @@ function ExperienceCard({
               {role.location ? ` · ${role.location}` : ""}
             </p>
           </header>
+
+          {role.verificationUrl && (
+            <a
+              href={role.verificationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-1.5 border-[3px] border-foreground bg-accent px-3 py-1.5 font-mono text-[10px] tracking-widest uppercase brutal-shadow-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-[transform,box-shadow]"
+            >
+              <BadgeCheck className="h-3.5 w-3.5" strokeWidth={2.5} />
+              Verify employment
+              <ArrowUpRight className="h-3 w-3" strokeWidth={2.5} />
+            </a>
+          )}
 
           <ul className="mt-5 space-y-2 text-[15px] leading-relaxed">
             {role.bullets.map((b, i) => (

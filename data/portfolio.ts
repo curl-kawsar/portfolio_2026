@@ -30,6 +30,8 @@ export type WorkExperience = {
   location?: string;
   period: string;
   bullets: string[];
+  /** Official employment verification URL from the company HR system. */
+  verificationUrl?: string;
 };
 
 export type SkillGroup = {
@@ -108,7 +110,9 @@ export const portfolio: Portfolio = {
       title: "Software Engineer",
       company: "Wa-Mac",
       location: "USA (Remote)",
-      period: "2025 — Present",
+      period: "Dec 2024 — Present",
+      verificationUrl:
+        "https://career.wa-mac.com/verify/1594ac19-cf19-43d1-99e4-fdc88d28a994",
       bullets: [
         "Architected and deployed internal tools and infrastructure improvements, reducing workflow execution time by **40–50%** and improving team productivity across all departments.",
         "Built a **Real Estate Tenant Management System** with envelope encryption (KEK/DEK), idempotency mechanisms to eliminate duplicate payments, and fuzzy matching reducing duplicate file uploads by **70%**; implemented support ticket system with **Socket.IO + Redis Pub/Sub**, video conferencing via **LiveKit/WebRTC**, and file storage via **Google Drive OAuth** and **MinIO**.",
