@@ -11,10 +11,6 @@ import {
   type ReactNode,
 } from "react";
 import type { GalleryLoveImage } from "@/lib/db";
-import {
-  addLovedImageKey,
-  applyServerLoveState,
-} from "@/lib/galleryLoveCache";
 import { getLoveForImage, withImageLove } from "@/lib/galleryLoveUtils";
 
 type LoveState = {
@@ -39,97 +35,83 @@ type Props = {
 };
 
 export function LoveProvider({ children, initialLove }: Props) {
-  const [state, setState] = useState<LoveState>(() =>
-    initialLove
-      ? applyServerLoveState(initialLove.total, initialLove.images)
-      : EMPTY_STATE
-  );
+  const [state, setState] = useState<LoveState>(initialLove ?? EMPTY_STATE);
   const [ready, setReady] = useState(Boolean(initialLove));
   const [poppingImage, setPoppingImage] = useState<string | null>(null);
   const pendingRef = useRef<Set<string>>(new Set());
 
-  const syncFromServer = useCallback(
-    (serverTotal: number, serverImages: Record<string, GalleryLoveImage>) => {
-      const applied = applyServerLoveState(serverTotal, serverImages);
-      setState(applied);
-      return applied;
-    },
-    []
-  );
+  useEffect(() => {
+    try {
+      localStorage.removeItem("portfolio_gallery_love_v1");
+      localStorage.removeItem("portfolio_gallery_loved_v1");
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/gallery-love", { cache: "no-store", credentials: "same-origin" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data.total !== "number" || !data.images) return;
+        setState({ total: data.total, images: data.images });
+      })
+      .catch(() => {})
+      .finally(() => setReady(true));
+  }, []);
 
   const getImageLove = useCallback(
     (imageKey: string) => getLoveForImage(state.images, imageKey),
     [state.images]
   );
 
-  useEffect(() => {
-    localStorage.removeItem("portfolio_gallery_love_v1");
-  }, []);
+  const sendLove = useCallback(async (imageKey: string) => {
+    if (pendingRef.current.has(imageKey)) return;
 
-  useEffect(() => {
-    fetch("/api/gallery-love", { cache: "no-store" })
-      .then((res) => res.json())
-      .then((data) => {
-        if (typeof data.total !== "number" || !data.images) return;
-        syncFromServer(data.total, data.images);
-      })
-      .catch(() => {})
-      .finally(() => setReady(true));
-  }, [syncFromServer]);
+    let didUpdate = false;
+    let rollback: LoveState | null = null;
 
-  const sendLove = useCallback(
-    async (imageKey: string) => {
-      if (pendingRef.current.has(imageKey)) return;
+    setState((prev) => {
+      const current = getLoveForImage(prev.images, imageKey);
+      if (current?.loved) return prev;
 
-      const rollbackRef = { current: null as LoveState | null };
-      let didUpdate = false;
+      didUpdate = true;
+      rollback = prev;
+      return {
+        total: prev.total + 1,
+        images: withImageLove(prev.images, imageKey, {
+          count: (current?.count ?? 0) + 1,
+          loved: true,
+        }),
+      };
+    });
 
-      setState((prev) => {
-        const current = getLoveForImage(prev.images, imageKey);
-        if (current?.loved) return prev;
+    if (!didUpdate || !rollback) return;
 
-        didUpdate = true;
-        rollbackRef.current = prev;
-        const next: LoveState = {
-          total: prev.total + 1,
-          images: withImageLove(prev.images, imageKey, {
-            count: (current?.count ?? 0) + 1,
-            loved: true,
-          }),
-        };
-        addLovedImageKey(imageKey);
-        return next;
+    pendingRef.current.add(imageKey);
+    setPoppingImage(imageKey);
+    window.setTimeout(() => setPoppingImage(null), 320);
+
+    try {
+      const res = await fetch("/api/gallery-love", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ image: imageKey }),
       });
+      const data = await res.json();
 
-      if (!didUpdate || !rollbackRef.current) return;
+      if (!res.ok) throw new Error("Love request failed");
 
-      const rollback = rollbackRef.current;
-      pendingRef.current.add(imageKey);
-      setPoppingImage(imageKey);
-      window.setTimeout(() => setPoppingImage(null), 320);
-
-      try {
-        const res = await fetch("/api/gallery-love", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ image: imageKey }),
-        });
-        const data = await res.json();
-
-        if (!res.ok) throw new Error("Love request failed");
-
-        if (typeof data.total === "number" && data.images) {
-          syncFromServer(data.total, data.images);
-          if (data.imageKey) addLovedImageKey(data.imageKey);
-        }
-      } catch {
-        setState(rollback);
-      } finally {
-        pendingRef.current.delete(imageKey);
+      if (typeof data.total === "number" && data.images) {
+        setState({ total: data.total, images: data.images });
       }
-    },
-    [syncFromServer]
-  );
+    } catch {
+      setState(rollback);
+    } finally {
+      pendingRef.current.delete(imageKey);
+    }
+  }, []);
 
   const value = useMemo(
     () => ({

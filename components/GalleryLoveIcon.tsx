@@ -23,17 +23,12 @@ export default function GalleryLoveIcon({ imageKey, size = "sm" }: Props) {
   return (
     <button
       type="button"
-      onPointerDown={(e) => {
-        if (e.button !== 0) return;
-        e.stopPropagation();
-        if (loved) return;
-        void sendLove(imageKey);
-      }}
       onClick={(e) => {
         e.stopPropagation();
-        e.preventDefault();
+        if (loved || !ready) return;
+        void sendLove(imageKey);
       }}
-      aria-disabled={loved}
+      disabled={loved || !ready}
       aria-label={
         loved
           ? `Loved · ${count} on this photo`

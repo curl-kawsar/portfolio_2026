@@ -104,7 +104,7 @@ export default function LeadershipSection({ roles }: Props) {
 
         <ol className="space-y-10 md:space-y-14 list-none">
           {roles.map((r, i) => (
-            <li key={`${r.org}-${r.title}`}>
+            <li key={i}>
               <RoleCard role={r} index={i} total={total} />
             </li>
           ))}

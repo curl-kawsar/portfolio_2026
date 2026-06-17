@@ -114,7 +114,7 @@ export default function SpeakingMentorshipSection({ stats, activities }: Props) 
         />
         <ol className="space-y-10 md:space-y-14 list-none">
           {activities.map((activity, i) => (
-            <li key={`${activity.org}-${activity.title}`}>
+            <li key={i}>
               <ActivityCard activity={activity} index={i} total={total} />
             </li>
           ))}

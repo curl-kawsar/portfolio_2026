@@ -69,17 +69,15 @@ export default function GalleryGrid({ photos }: Props) {
                   className="pointer-events-none object-cover"
                 />
                 <ImageWatermark size="sm" />
-                <div className="absolute inset-0 z-30 pointer-events-none">
-                  <GalleryLoveIcon imageKey={file} size="sm" />
-                  <button
-                    type="button"
-                    onClick={() => setActiveIndex(i)}
-                    aria-label={`View photo ${i + 1} in full size`}
-                    className="pointer-events-auto absolute right-2 bottom-2 z-10 inline-flex items-center gap-1 border-[3px] border-foreground bg-background text-foreground px-2 py-1 font-mono text-[10px] tracking-widest uppercase opacity-100 sm:pointer-events-none sm:opacity-0 sm:group-hover:pointer-events-auto sm:group-focus-within:pointer-events-auto sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 transition-opacity brutal-shadow cursor-pointer"
-                  >
-                    View
-                  </button>
-                </div>
+                <GalleryLoveIcon imageKey={file} size="sm" />
+                <button
+                  type="button"
+                  onClick={() => setActiveIndex(i)}
+                  aria-label={`View photo ${i + 1} in full size`}
+                  className="absolute right-2 bottom-2 z-10 inline-flex items-center gap-1 border-[3px] border-foreground bg-background text-foreground px-2 py-1 font-mono text-[10px] tracking-widest uppercase opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 transition-opacity brutal-shadow cursor-pointer"
+                >
+                  View
+                </button>
               </div>
               <figcaption className="px-3 py-2 font-mono text-[10px] tracking-widest uppercase text-muted">
                 {file.replace(/\.[^.]+$/, "")}
