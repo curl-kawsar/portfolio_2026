@@ -36,15 +36,7 @@ const NAV = [
  * content's way. Mobile gets a compact bottom bar.
  */
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("#about");
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     const sectionEls = NAV.map((n) =>
@@ -177,20 +169,20 @@ export default function Header() {
         </div>
       </aside>
 
-      {/* Mobile bottom bar — minimal pill */}
+      {/* Mobile bottom bar — compact, horizontally scrollable */}
       <nav
         aria-label="Primary mobile"
-        className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 border-[3px] border-foreground bg-card brutal-shadow font-mono"
+        className="lg:hidden fixed bottom-3 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-md -translate-x-1/2 border-2 border-foreground bg-card brutal-shadow-sm font-mono"
       >
-        <ul className="flex items-stretch divide-x-2 divide-foreground">
+        <ul className="flex items-stretch divide-x divide-foreground overflow-x-auto overscroll-x-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {NAV.map(({ href, label, n, Icon }) => {
             const isActive = active === href;
             return (
-              <li key={href}>
+              <li key={href} className="shrink-0">
                 <a
                   href={href}
                   className={[
-                    "w-11 h-11 inline-flex items-center justify-center",
+                    "w-8 h-8 inline-flex items-center justify-center",
                     isActive
                       ? "bg-foreground text-background"
                       : "bg-card text-foreground active:bg-accent",
@@ -198,13 +190,25 @@ export default function Header() {
                   aria-current={isActive ? "page" : undefined}
                   aria-label={`${n} ${label}`}
                 >
-                  <Icon className="h-4 w-4" strokeWidth={2.5} />
+                  <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
                 </a>
               </li>
             );
           })}
         </ul>
       </nav>
+
+      {/* Mobile section chip — mirrors desktop progress strip */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed top-0 left-0 right-0 z-[60] flex lg:hidden items-center justify-center gap-1.5 border-b-2 border-foreground bg-background/95 backdrop-blur px-3 py-1 font-mono text-[9px] tracking-widest uppercase select-none"
+      >
+        <span className="font-bold">{String(activeIdx).padStart(2, "0")}</span>
+        <span className="opacity-30">/</span>
+        <span className="opacity-60">{String(totalSections).padStart(2, "0")}</span>
+        <span className="opacity-30">·</span>
+        <span className="font-bold truncate max-w-[40vw]">{activeEntry.label}</span>
+      </div>
     </>
   );
 }

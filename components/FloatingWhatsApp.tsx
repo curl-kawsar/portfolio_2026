@@ -21,9 +21,9 @@ export default function FloatingWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`Chat on WhatsApp: ${portfolio.phone}`}
-      className="group fixed bottom-20 right-4 z-50 inline-flex h-14 w-14 items-center justify-center border-[3px] border-foreground bg-[#25D366] text-white brutal-shadow transition-[transform,box-shadow] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none lg:bottom-6 lg:right-6"
+      className="group fixed bottom-14 right-3 z-50 inline-flex h-10 w-10 items-center justify-center border-2 border-foreground bg-[#25D366] text-white brutal-shadow-sm transition-[transform,box-shadow] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none lg:bottom-6 lg:right-6 lg:h-14 lg:w-14 lg:border-[3px] lg:brutal-shadow"
     >
-      <WhatsAppIcon className="h-7 w-7" />
+      <WhatsAppIcon className="h-5 w-5 lg:h-7 lg:w-7" />
 
       <span
         aria-hidden
