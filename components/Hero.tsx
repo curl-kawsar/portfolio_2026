@@ -38,8 +38,11 @@ export default function Hero() {
               [ HELLO / I'M ]
             </div>
             <h1 className="mt-2 text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl md:text-7xl lg:text-[5.5rem]">
-              {portfolio.name }
-              
+              Md<span className="text-accent">.</span>{" "}
+              K<span className="text-accent">a</span>ws
+              <span className="text-accent">a</span>r{" "}
+              A<span className="text-accent">h</span>m
+              <span className="text-accent">e</span>d
             </h1>
             <p className="mt-5 max-w-xl text-base text-muted sm:text-lg inline-flex items-center gap-2">
               <MapPin className="h-4 w-4 shrink-0" strokeWidth={2.5} />
