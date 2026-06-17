@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   Mail,
   Loader2,
-  LogOut,
   Trash2,
   MailOpen,
   MailCheck,
@@ -69,12 +68,6 @@ export default function AdminPanel() {
   const selected = messages.find((m) => m.id === selectedId) ?? null;
   const unreadCount = messages.filter((m) => !m.read).length;
 
-  async function handleLogout() {
-    await fetch("/api/admin/logout", { method: "POST" });
-    router.push("/admin/login");
-    router.refresh();
-  }
-
   async function toggleRead(id: number, read: boolean) {
     setActionLoading(id);
     try {
@@ -114,8 +107,8 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="min-h-screen">
-      <header className="border-b-[3px] border-foreground bg-foreground text-background">
+    <>
+      <div className="border-b-[3px] border-foreground bg-foreground text-background">
         <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between gap-4">
           <div>
             <p className="font-mono text-[10px] tracking-widest uppercase opacity-70">
@@ -130,30 +123,20 @@ export default function AdminPanel() {
               )}
             </h1>
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={fetchMessages}
-              disabled={loading}
-              className="inline-flex items-center gap-1.5 border-2 border-background bg-background text-foreground px-3 py-1.5 font-mono text-[10px] tracking-widest uppercase hover:bg-accent transition-colors disabled:opacity-60"
-            >
-              <RefreshCw
-                className={`h-3 w-3 ${loading ? "animate-spin" : ""}`}
-                strokeWidth={2.5}
-              />
-              Refresh
-            </button>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 border-2 border-background px-3 py-1.5 font-mono text-[10px] tracking-widest uppercase hover:bg-accent hover:text-foreground transition-colors"
-            >
-              <LogOut className="h-3 w-3" strokeWidth={2.5} />
-              Logout
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={fetchMessages}
+            disabled={loading}
+            className="inline-flex items-center gap-1.5 border-2 border-background bg-background text-foreground px-3 py-1.5 font-mono text-[10px] tracking-widest uppercase hover:bg-accent transition-colors disabled:opacity-60"
+          >
+            <RefreshCw
+              className={`h-3 w-3 ${loading ? "animate-spin" : ""}`}
+              strokeWidth={2.5}
+            />
+            Refresh
+          </button>
         </div>
-      </header>
+      </div>
 
       <main className="mx-auto max-w-6xl px-6 py-8">
         {loading && messages.length === 0 ? (
@@ -301,6 +284,6 @@ export default function AdminPanel() {
           </div>
         )}
       </main>
-    </div>
+    </>
   );
 }

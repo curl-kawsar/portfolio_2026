@@ -9,8 +9,17 @@ export default function Footer() {
           <span className="bg-foreground text-background px-1">©</span> {year}{" "}
           {portfolio.name}
         </p>
-        <p>
-          <a href="#top" className="border-2 border-foreground px-2 py-1 hover:bg-foreground hover:text-background">
+        <p className="flex flex-wrap items-center gap-2">
+          <a
+            href="/blog"
+            className="border-2 border-foreground px-2 py-1 hover:bg-foreground hover:text-background"
+          >
+            Blog
+          </a>
+          <a
+            href="#top"
+            className="border-2 border-foreground px-2 py-1 hover:bg-foreground hover:text-background"
+          >
             ↑ BACK_TO_TOP
           </a>
         </p>

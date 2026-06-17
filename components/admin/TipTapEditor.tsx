@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -27,6 +27,12 @@ type Props = {
   onChange: (markdown: string) => void;
   placeholder?: string;
 };
+
+function getMarkdown(editor: Editor) {
+  return (
+    editor.storage as unknown as { markdown: { getMarkdown: () => string } }
+  ).markdown.getMarkdown();
+}
 
 function ToolbarButton({
   onClick,
@@ -84,14 +90,14 @@ export default function TipTapEditor({
       },
     },
     onUpdate: ({ editor: ed }) => {
-      onChange(ed.storage.markdown.getMarkdown());
+      onChange(getMarkdown(ed));
     },
     immediatelyRender: false,
   });
 
   useEffect(() => {
     if (!editor) return;
-    const current = editor.storage.markdown.getMarkdown();
+    const current = getMarkdown(editor);
     if (value !== current) {
       editor.commands.setContent(value);
     }

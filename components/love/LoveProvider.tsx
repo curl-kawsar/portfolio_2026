@@ -60,13 +60,15 @@ export function LoveProvider({ children }: { children: ReactNode }) {
   const sendLove = useCallback(async (imageKey: string) => {
     if (pendingRef.current.has(imageKey)) return;
 
-    let snapshot: LoveState | null = null;
+    const rollbackRef = { current: null as LoveState | null };
+    let didUpdate = false;
 
     setState((prev) => {
       const current = prev.images[imageKey];
       if (current?.loved) return prev;
 
-      snapshot = prev;
+      didUpdate = true;
+      rollbackRef.current = prev;
       const next: LoveState = {
         total: prev.total + 1,
         images: {
@@ -78,8 +80,9 @@ export function LoveProvider({ children }: { children: ReactNode }) {
       return next;
     });
 
-    if (!snapshot) return;
+    if (!didUpdate || !rollbackRef.current) return;
 
+    const rollback = rollbackRef.current;
     pendingRef.current.add(imageKey);
     setPoppingImage(imageKey);
     window.setTimeout(() => setPoppingImage(null), 320);
@@ -105,8 +108,8 @@ export function LoveProvider({ children }: { children: ReactNode }) {
         });
       }
     } catch {
-      setState(snapshot);
-      writeGalleryLoveCache(snapshot.total, snapshot.images);
+      setState(rollback);
+      writeGalleryLoveCache(rollback.total, rollback.images);
     } finally {
       pendingRef.current.delete(imageKey);
     }

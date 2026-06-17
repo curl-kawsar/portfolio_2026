@@ -1,9 +1,28 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import CodeBlock from "./CodeBlock";
 
 type Props = {
   content: string;
 };
+
+function extractCode(children: React.ReactNode): string {
+  if (typeof children === "string") return children;
+  if (Array.isArray(children)) {
+    return children.map((child) => extractCode(child)).join("");
+  }
+  if (
+    children &&
+    typeof children === "object" &&
+    "props" in children &&
+    children.props
+  ) {
+    return extractCode(
+      (children as { props: { children?: React.ReactNode } }).props.children
+    );
+  }
+  return String(children ?? "");
+}
 
 export default function BlogMarkdown({ content }: Props) {
   return (
@@ -49,24 +68,30 @@ export default function BlogMarkdown({ content }: Props) {
               {children}
             </blockquote>
           ),
+          pre: ({ children }) => <>{children}</>,
           code: ({ className, children }) => {
-            const isBlock = className?.includes("language-");
-            if (isBlock) {
+            const match = /language-(\w+)/.exec(className ?? "");
+            const code = extractCode(children).replace(/\n$/, "");
+
+            if (match || (code.includes("\n") && className)) {
               return (
-                <code className="block overflow-x-auto border-2 border-foreground bg-foreground px-4 py-3 font-mono text-[13px] text-background">
-                  {children}
-                </code>
+                <CodeBlock
+                  language={match?.[1] ?? "javascript"}
+                  code={code}
+                />
               );
             }
+
+            if (code.includes("\n")) {
+              return <CodeBlock language="javascript" code={code} />;
+            }
+
             return (
               <code className="border border-foreground bg-card px-1.5 py-0.5 font-mono text-[13px]">
                 {children}
               </code>
             );
           },
-          pre: ({ children }) => (
-            <pre className="mt-4 overflow-x-auto first:mt-0">{children}</pre>
-          ),
           hr: () => <hr className="my-8 border-t-2 border-foreground" />,
           strong: ({ children }) => (
             <strong className="font-bold">{children}</strong>

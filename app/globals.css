@@ -211,3 +211,69 @@ body {
   from { transform: rotate(0deg);   }
   to   { transform: rotate(360deg); }
 }
+
+/* TipTap editor content area */
+.prose-blog p.is-editor-empty:first-child::before {
+  color: var(--muted);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.prose-blog h2 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-top: 1.25rem;
+}
+
+.prose-blog h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+.prose-blog p {
+  margin-top: 0.75rem;
+}
+
+.prose-blog ul,
+.prose-blog ol {
+  margin-top: 0.75rem;
+  padding-left: 1.25rem;
+}
+
+.prose-blog blockquote {
+  border-left: 4px solid var(--accent);
+  margin-top: 0.75rem;
+  padding-left: 1rem;
+}
+
+.prose-blog code {
+  background: var(--card);
+  border: 1px solid var(--foreground);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 0.1rem 0.35rem;
+}
+
+.prose-blog pre {
+  background: var(--foreground);
+  color: var(--background);
+  margin-top: 0.75rem;
+  overflow-x: auto;
+  padding: 0.75rem 1rem;
+}
+
+.prose-blog pre code {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  padding: 0;
+}
+
+.prose-blog a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
