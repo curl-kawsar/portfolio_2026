@@ -17,7 +17,7 @@ export default function GallerySection() {
       id="gallery"
       className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
-      <SectionHeading index="04" label="Gallery" />
+      <SectionHeading index="06" label="Gallery" />
 
       <Reveal>
         <div className="flex items-center justify-between border-y-[3px] border-foreground bg-card px-3 py-2 font-mono text-[11px] tracking-widest uppercase">

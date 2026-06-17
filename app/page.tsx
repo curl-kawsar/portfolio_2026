@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import LiveSiteMockboard from "@/components/LiveSiteMockboard";
 import About from "@/components/About";
+import ExperienceSection from "@/components/ExperienceSection";
 import WorkSection from "@/components/WorkSection";
 import RecognitionSection from "@/components/RecognitionSection";
 import GallerySection from "@/components/GallerySection";
@@ -20,6 +21,8 @@ export default function Page() {
         <Hero />
         
         <About />
+        <SkillsSection groups={portfolio.skills} />
+        <ExperienceSection roles={portfolio.experience} />
         <WorkSection />
         <LiveSiteMockboard
           url={portfolio.liveSiteUrl}
@@ -29,7 +32,6 @@ export default function Page() {
         <RecognitionSection />
         <GallerySection />
         <LeadershipSection roles={portfolio.leadership} />
-        <SkillsSection groups={portfolio.skills} />
         <EducationSection />
         <ContactSection />
       </main>

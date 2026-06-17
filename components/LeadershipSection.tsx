@@ -1,5 +1,6 @@
 import { Users, Check } from "lucide-react";
 import type { LeadershipRole } from "@/data/portfolio";
+import { renderBoldText } from "@/lib/renderBoldText";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 
@@ -71,7 +72,7 @@ function RoleCard({
                   strokeWidth={3}
                   aria-hidden
                 />
-                <span>{b}</span>
+                <span>{renderBoldText(b)}</span>
               </li>
             ))}
           </ul>
@@ -89,7 +90,7 @@ export default function LeadershipSection({ roles }: Props) {
       id="leadership"
       className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
-      <SectionHeading index="04" label="Leadership" />
+      <SectionHeading index="07" label="Leadership" />
 
       {/* Timeline container. The vertical spine is a single 3px ink
           line on the left at all breakpoints. Each role card sits to

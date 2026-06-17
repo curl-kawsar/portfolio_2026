@@ -114,6 +114,23 @@ body {
   html {
     scroll-behavior: auto;
   }
+
+  .skill-marquee-track {
+    animation: none;
+  }
+}
+
+@keyframes skill-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.skill-marquee-track {
+  animation: skill-marquee 50s linear infinite;
 }
 
 /* Brutalist utilities */

@@ -1,4 +1,5 @@
 import { portfolio } from "@/data/portfolio";
+import { renderBoldText } from "@/lib/renderBoldText";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
 
@@ -17,16 +18,16 @@ export default function About() {
         {rest.map((p, i) => (
           <Reveal key={i} delay={i * 40}>
             <div className="border-l-[6px] border-foreground pl-4">
-              <p>{p}</p>
+              <p>{renderBoldText(p)}</p>
             </div>
           </Reveal>
         ))}
         <Reveal delay={rest.length * 40}>
-          <blockquote className="mt-6 border-[3px] border-foreground bg-foreground text-background p-5 font-mono text-sm tracking-wide">
+          <blockquote className="mt-6 border-[3px] border-foreground bg-foreground text-background p-5 font-mono text-sm tracking-wide [&_strong]:text-accent">
             <span aria-hidden className="block text-accent text-2xl leading-none mb-2">
               &gt;&gt;
             </span>
-            {last}
+            {renderBoldText(last)}
           </blockquote>
         </Reveal>
       </div>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   User,
   Briefcase,
+  Building2,
   Trophy,
   Users,
   Wrench,
@@ -17,12 +18,13 @@ import { portfolio } from "@/data/portfolio";
 
 const NAV = [
   { href: "#about", label: "About", n: "01", Icon: User },
-  { href: "#work", label: "Work", n: "02", Icon: Briefcase },
-  { href: "#recognition", label: "Awards", n: "03", Icon: Trophy },
-  { href: "#leadership", label: "Lead", n: "04", Icon: Users },
-  { href: "#skills", label: "Stack", n: "05", Icon: Wrench },
-  { href: "#education", label: "Edu", n: "06", Icon: GraduationCap },
-  { href: "#contact", label: "Mail", n: "07", Icon: Mail },
+  { href: "#skills", label: "Stack", n: "02", Icon: Wrench },
+  { href: "#experience", label: "Jobs", n: "03", Icon: Building2 },
+  { href: "#work", label: "Work", n: "04", Icon: Briefcase },
+  { href: "#recognition", label: "Awards", n: "05", Icon: Trophy },
+  { href: "#leadership", label: "Lead", n: "07", Icon: Users },
+  { href: "#education", label: "Edu", n: "08", Icon: GraduationCap },
+  { href: "#contact", label: "Mail", n: "09", Icon: Mail },
 ];
 
 /**
@@ -170,7 +172,7 @@ export default function Header() {
           <div className="leading-none tracking-widest">
             {String(NAV.findIndex((n) => n.href === active) + 1).padStart(2, "0")}
           </div>
-          <div className="mt-0.5 leading-none tracking-widest opacity-50">/ 07</div>
+          <div className="mt-0.5 leading-none tracking-widest opacity-50">/ {String(NAV.length).padStart(2, "0")}</div>
         </div>
       </aside>
 

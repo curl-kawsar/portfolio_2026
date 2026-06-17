@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { portfolio } from "@/data/portfolio";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -66,6 +67,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-background text-foreground font-sans">
         {children}
+        <FloatingWhatsApp />
       </body>
     </html>
   );

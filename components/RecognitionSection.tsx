@@ -24,7 +24,7 @@ export default function RecognitionSection() {
       id="recognition"
       className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
-      <SectionHeading index="03" label="Recognition" />
+      <SectionHeading index="05" label="Recognition" />
 
       <div className="space-y-8">
         {years.map((year, yi) => (

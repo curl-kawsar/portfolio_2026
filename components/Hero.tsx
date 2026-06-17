@@ -31,8 +31,8 @@ export default function Hero() {
           </div>
         </Reveal>
 
-        {/* Big name board — takes 8 cols */}
-        <Reveal className="col-span-12 lg:col-span-8" delay={80}>
+        {/* Intro — after photo on mobile, left column on desktop */}
+        <Reveal className="col-span-12 order-3 lg:col-span-8 lg:order-2" delay={80}>
           <div className="relative border-[3px] border-foreground bg-card p-6 sm:p-8 brutal-shadow">
             <div className="absolute -top-3 left-3 bg-accent border-2 border-foreground px-2 py-0.5 font-mono text-[10px] tracking-widest uppercase text-foreground inline-flex items-center gap-1.5">
               <Terminal className="h-3 w-3" strokeWidth={2.5} />
@@ -74,8 +74,8 @@ export default function Hero() {
           </div>
         </Reveal>
 
-        {/* Image board — takes 4 cols, framed like a polaroid on a board */}
-        <Reveal className="col-span-12 lg:col-span-4" delay={140}>
+        {/* Photo — first on mobile, right column on desktop */}
+        <Reveal className="col-span-12 order-2 lg:col-span-4 lg:order-3" delay={140}>
           <div className="relative h-full border-[3px] border-foreground bg-card p-3 brutal-shadow-accent">
             <div className="absolute -top-3 left-3 bg-foreground text-background border-2 border-foreground px-2 py-0.5 font-mono text-[10px] tracking-widest uppercase inline-flex items-center gap-1.5">
               <FileText className="h-3 w-3" strokeWidth={2.5} />
@@ -105,7 +105,7 @@ export default function Hero() {
         </Reveal>
 
         {/* Contact quick-links board — full width, segmented */}
-        <Reveal className="col-span-12" delay={220}>
+        <Reveal className="col-span-12 order-4" delay={220}>
           <ul className="grid grid-cols-1 sm:grid-cols-3 border-[3px] border-foreground bg-card font-mono text-sm">
             <li className="border-b-2 sm:border-b-0 sm:border-r-2 border-foreground">
               <a

@@ -1,5 +1,6 @@
 import type { Project } from "@/data/portfolio";
 import { Star, Layers, Check } from "lucide-react";
+import { renderBoldText } from "@/lib/renderBoldText";
 import Reveal from "./Reveal";
 
 type Props = {
@@ -27,8 +28,8 @@ export default function ProjectCard({ project, index }: Props) {
         </header>
 
         <p className="mt-3 inline-flex items-center gap-1.5 border-2 border-foreground bg-foreground text-background px-2 py-1 font-mono text-[11px] tracking-widest uppercase">
-          <Star className="h-3 w-3" strokeWidth={2.5} />
-          {project.metric}
+          <Star className="h-3 w-3 shrink-0" strokeWidth={2.5} />
+          <span>{renderBoldText(project.metric)}</span>
         </p>
 
         <ul className="mt-5 space-y-2 text-[15px] leading-relaxed">
@@ -39,7 +40,7 @@ export default function ProjectCard({ project, index }: Props) {
                 strokeWidth={3}
                 aria-hidden
               />
-              <span>{b}</span>
+              <span>{renderBoldText(b)}</span>
             </li>
           ))}
         </ul>
