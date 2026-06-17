@@ -14,8 +14,8 @@ const ICON_SIZE = {
 } as const;
 
 export default function GalleryLoveIcon({ imageKey, size = "sm" }: Props) {
-  const { images, ready, poppingImage, sendLove } = useLove();
-  const state = images[imageKey];
+  const { getImageLove, ready, poppingImage, sendLove } = useLove();
+  const state = getImageLove(imageKey);
   const loved = state?.loved ?? false;
   const count = state?.count ?? 0;
   const popping = poppingImage === imageKey;

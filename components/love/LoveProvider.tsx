@@ -15,6 +15,7 @@ import {
   addLovedImageKey,
   applyServerLoveState,
 } from "@/lib/galleryLoveCache";
+import { getLoveForImage, withImageLove } from "@/lib/galleryLoveUtils";
 
 type LoveState = {
   total: number;
@@ -24,6 +25,7 @@ type LoveState = {
 type LoveContextValue = LoveState & {
   ready: boolean;
   poppingImage: string | null;
+  getImageLove: (imageKey: string) => GalleryLoveImage | undefined;
   sendLove: (imageKey: string) => Promise<void>;
 };
 
@@ -31,9 +33,18 @@ const LoveContext = createContext<LoveContextValue | null>(null);
 
 const EMPTY_STATE: LoveState = { total: 0, images: {} };
 
-export function LoveProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<LoveState>(EMPTY_STATE);
-  const [ready, setReady] = useState(false);
+type Props = {
+  children: ReactNode;
+  initialLove?: LoveState;
+};
+
+export function LoveProvider({ children, initialLove }: Props) {
+  const [state, setState] = useState<LoveState>(() =>
+    initialLove
+      ? applyServerLoveState(initialLove.total, initialLove.images)
+      : EMPTY_STATE
+  );
+  const [ready, setReady] = useState(Boolean(initialLove));
   const [poppingImage, setPoppingImage] = useState<string | null>(null);
   const pendingRef = useRef<Set<string>>(new Set());
 
@@ -45,6 +56,15 @@ export function LoveProvider({ children }: { children: ReactNode }) {
     },
     []
   );
+
+  const getImageLove = useCallback(
+    (imageKey: string) => getLoveForImage(state.images, imageKey),
+    [state.images]
+  );
+
+  useEffect(() => {
+    localStorage.removeItem("portfolio_gallery_love_v1");
+  }, []);
 
   useEffect(() => {
     fetch("/api/gallery-love", { cache: "no-store" })
@@ -65,17 +85,17 @@ export function LoveProvider({ children }: { children: ReactNode }) {
       let didUpdate = false;
 
       setState((prev) => {
-        const current = prev.images[imageKey];
+        const current = getLoveForImage(prev.images, imageKey);
         if (current?.loved) return prev;
 
         didUpdate = true;
         rollbackRef.current = prev;
         const next: LoveState = {
           total: prev.total + 1,
-          images: {
-            ...prev.images,
-            [imageKey]: { count: (current?.count ?? 0) + 1, loved: true },
-          },
+          images: withImageLove(prev.images, imageKey, {
+            count: (current?.count ?? 0) + 1,
+            loved: true,
+          }),
         };
         addLovedImageKey(imageKey);
         return next;
@@ -116,9 +136,10 @@ export function LoveProvider({ children }: { children: ReactNode }) {
       ...state,
       ready,
       poppingImage,
+      getImageLove,
       sendLove,
     }),
-    [state, ready, poppingImage, sendLove]
+    [state, ready, poppingImage, getImageLove, sendLove]
   );
 
   return <LoveContext.Provider value={value}>{children}</LoveContext.Provider>;
