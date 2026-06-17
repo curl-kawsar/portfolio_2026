@@ -46,6 +46,14 @@ export type EducationEntry = {
   honors?: string[];
 };
 
+export type Reference = {
+  name: string;
+  title: string;
+  org: string;
+  location?: string;
+  email: string;
+};
+
 export type Portfolio = {
   name: string;
   role: string;
@@ -64,6 +72,7 @@ export type Portfolio = {
   leadership: LeadershipRole[];
   skills: SkillGroup[];
   education: EducationEntry[];
+  references: Reference[];
 };
 
 export const portfolio: Portfolio = {
@@ -241,6 +250,25 @@ export const portfolio: Portfolio = {
       degree: "Secondary School Certificate (SSC) · Science",
       period: "2019",
       result: "GPA: 4.50",
+    },
+  ],
+
+  references: [
+    {
+      name: "Golam Moktader Nayeem",
+      title:
+        "Dean (Acting), Faculty of ECE · Associate Professor, Dept. of CSE",
+      org: "Bangladesh Army International University of Science & Technology (BAIUST)",
+      location: "Cumilla",
+      email: "gmnayeem.cse@baiust.ac.bd",
+    },
+    {
+      name: "Md. Khorshed Alam Molla",
+      title:
+        "Senior Manager & Head – ROC Cumilla · Asset and ROC Operations",
+      org: "Brac Bank, ChawkBazar",
+      location: "Regional Operating Center, Cumilla",
+      email: "mohammedkhorsedalam.molla@bracbank.com",
     },
   ],
 };

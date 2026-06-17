@@ -24,7 +24,7 @@ const NAV = [
   { href: "#recognition", label: "Awards", n: "05", Icon: Trophy },
   { href: "#leadership", label: "Lead", n: "07", Icon: Users },
   { href: "#education", label: "Edu", n: "08", Icon: GraduationCap },
-  { href: "#contact", label: "Mail", n: "09", Icon: Mail },
+  { href: "#contact", label: "Mail", n: "10", Icon: Mail },
 ];
 
 /**
