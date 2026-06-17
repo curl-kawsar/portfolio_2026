@@ -66,6 +66,23 @@ export async function ensureSchema() {
           count INTEGER NOT NULL DEFAULT 0
         )
       `;
+      await sql`
+        CREATE TABLE IF NOT EXISTS blog_posts (
+          id SERIAL PRIMARY KEY,
+          slug VARCHAR(255) UNIQUE NOT NULL,
+          title VARCHAR(500) NOT NULL,
+          excerpt TEXT,
+          content TEXT NOT NULL,
+          published BOOLEAN DEFAULT FALSE,
+          published_at TIMESTAMPTZ,
+          created_at TIMESTAMPTZ DEFAULT NOW(),
+          updated_at TIMESTAMPTZ DEFAULT NOW()
+        )
+      `;
+      await sql`
+        CREATE INDEX IF NOT EXISTS blog_posts_published_idx
+        ON blog_posts (published, published_at DESC)
+      `;
     })();
   }
   await schemaReady;
@@ -248,4 +265,145 @@ export async function toggleGalleryLove(visitorId: string, imageKey: string) {
     },
     alreadyLoved: false,
   };
+}
+
+export type BlogPost = {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string | null;
+  content: string;
+  published: boolean;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export async function getPublishedBlogPosts() {
+  await ensureSchema();
+  const sql = getSql();
+  const rows = await sql`
+    SELECT id, slug, title, excerpt, content, published, published_at, created_at, updated_at
+    FROM blog_posts
+    WHERE published = TRUE
+    ORDER BY published_at DESC NULLS LAST, created_at DESC
+  `;
+  return rows as BlogPost[];
+}
+
+export async function getPublishedBlogPostBySlug(slug: string) {
+  await ensureSchema();
+  const sql = getSql();
+  const rows = await sql`
+    SELECT id, slug, title, excerpt, content, published, published_at, created_at, updated_at
+    FROM blog_posts
+    WHERE slug = ${slug} AND published = TRUE
+    LIMIT 1
+  `;
+  return (rows[0] as BlogPost | undefined) ?? null;
+}
+
+export async function getAllBlogPosts() {
+  await ensureSchema();
+  const sql = getSql();
+  const rows = await sql`
+    SELECT id, slug, title, excerpt, content, published, published_at, created_at, updated_at
+    FROM blog_posts
+    ORDER BY updated_at DESC
+  `;
+  return rows as BlogPost[];
+}
+
+export async function getBlogPostById(id: number) {
+  await ensureSchema();
+  const sql = getSql();
+  const rows = await sql`
+    SELECT id, slug, title, excerpt, content, published, published_at, created_at, updated_at
+    FROM blog_posts
+    WHERE id = ${id}
+    LIMIT 1
+  `;
+  return (rows[0] as BlogPost | undefined) ?? null;
+}
+
+export async function insertBlogPost(data: {
+  slug: string;
+  title: string;
+  excerpt?: string | null;
+  content: string;
+  published?: boolean;
+}) {
+  await ensureSchema();
+  const sql = getSql();
+  const published = data.published ?? false;
+  const rows = await sql`
+    INSERT INTO blog_posts (slug, title, excerpt, content, published, published_at)
+    VALUES (
+      ${data.slug},
+      ${data.title},
+      ${data.excerpt ?? null},
+      ${data.content},
+      ${published},
+      ${published ? new Date().toISOString() : null}
+    )
+    RETURNING id, slug, title, excerpt, content, published, published_at, created_at, updated_at
+  `;
+  return rows[0] as BlogPost;
+}
+
+export async function updateBlogPost(
+  id: number,
+  data: {
+    slug?: string;
+    title?: string;
+    excerpt?: string | null;
+    content?: string;
+    published?: boolean;
+  }
+) {
+  await ensureSchema();
+  const sql = getSql();
+  const existing = await getBlogPostById(id);
+  if (!existing) return null;
+
+  const slug = data.slug ?? existing.slug;
+  const title = data.title ?? existing.title;
+  const excerpt =
+    data.excerpt !== undefined ? data.excerpt : existing.excerpt;
+  const content = data.content ?? existing.content;
+  const published =
+    data.published !== undefined ? data.published : existing.published;
+
+  let publishedAt = existing.published_at;
+  if (published && !existing.published) {
+    publishedAt = new Date().toISOString();
+  } else if (!published) {
+    publishedAt = null;
+  }
+
+  const rows = await sql`
+    UPDATE blog_posts
+    SET
+      slug = ${slug},
+      title = ${title},
+      excerpt = ${excerpt},
+      content = ${content},
+      published = ${published},
+      published_at = ${publishedAt},
+      updated_at = NOW()
+    WHERE id = ${id}
+    RETURNING id, slug, title, excerpt, content, published, published_at, created_at, updated_at
+  `;
+  return (rows[0] as BlogPost | undefined) ?? null;
+}
+
+export async function deleteBlogPost(id: number) {
+  await ensureSchema();
+  const sql = getSql();
+  const rows = await sql`
+    DELETE FROM blog_posts
+    WHERE id = ${id}
+    RETURNING id
+  `;
+  return rows.length > 0;
 }

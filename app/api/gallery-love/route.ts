@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import { getGalleryLoveState, toggleGalleryLove } from "@/lib/db";
 
 const VISITOR_COOKIE = "visitor_id";
@@ -9,10 +10,10 @@ export async function GET() {
     const visitorId = cookieStore.get(VISITOR_COOKIE)?.value;
     const state = await getGalleryLoveState(visitorId);
 
-    return Response.json(state);
+    return NextResponse.json(state);
   } catch (error) {
     console.error("Gallery love GET error:", error);
-    return Response.json(
+    return NextResponse.json(
       { error: "Failed to load gallery loves." },
       { status: 500 }
     );
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
     const imageKey = String(body.image ?? "").trim();
 
     if (!imageKey) {
-      return Response.json({ error: "Image key is required." }, { status: 400 });
+      return NextResponse.json({ error: "Image key is required." }, { status: 400 });
     }
 
     const cookieStore = await cookies();
@@ -37,7 +38,7 @@ export async function POST(request: Request) {
 
     const result = await toggleGalleryLove(visitorId, imageKey);
 
-    const response = Response.json({
+    const response = NextResponse.json({
       total: result.total,
       imageKey,
       image: result.image,
@@ -55,7 +56,7 @@ export async function POST(request: Request) {
     return response;
   } catch (error) {
     console.error("Gallery love POST error:", error);
-    return Response.json(
+    return NextResponse.json(
       { error: "Failed to record gallery love." },
       { status: 500 }
     );

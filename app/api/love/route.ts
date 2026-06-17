@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
-import { ensureSchema, getLoveCount, getVisitorLoved, toggleLove } from "@/lib/db";
+import { NextResponse } from "next/server";
+import { getLoveCount, getVisitorLoved, toggleLove } from "@/lib/db";
 
 const VISITOR_COOKIE = "visitor_id";
 
@@ -12,10 +13,13 @@ export async function GET() {
       visitorId ? getVisitorLoved(visitorId) : Promise.resolve(false),
     ]);
 
-    return Response.json({ count, loved });
+    return NextResponse.json({ count, loved });
   } catch (error) {
     console.error("Love GET error:", error);
-    return Response.json({ error: "Failed to load love count." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to load love count." },
+      { status: 500 }
+    );
   }
 }
 
@@ -30,7 +34,7 @@ export async function POST() {
 
     const result = await toggleLove(visitorId);
 
-    const response = Response.json(result);
+    const response = NextResponse.json(result);
     response.cookies.set(VISITOR_COOKIE, visitorId, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -42,6 +46,9 @@ export async function POST() {
     return response;
   } catch (error) {
     console.error("Love POST error:", error);
-    return Response.json({ error: "Failed to record love." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to record love." },
+      { status: 500 }
+    );
   }
 }
