@@ -38,7 +38,6 @@ const NAV = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("#about");
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -85,7 +84,7 @@ export default function Header() {
           sidebar's active state, so both stay in sync. */}
       <div
         aria-hidden
-        className="pointer-events-none fixed top-0 left-0 right-0 z-[60] hidden lg:flex items-center gap-2 border-b-2 border-foreground bg-background/95 backdrop-blur px-4 py-1.5 font-mono text-[10px] tracking-widest uppercase select-none"
+        className="pointer-events-none fixed top-0 left-0 right-0 z-[60] hidden lg:flex items-center gap-1.5 border-b-2 border-foreground bg-background/95 backdrop-blur px-3 py-1 font-mono text-[9px] tracking-widest uppercase select-none"
       >
         <span className="font-bold">
           {String(activeIdx).padStart(2, "0")}
@@ -105,42 +104,39 @@ export default function Header() {
       {/* Desktop floating sidebar */}
       <aside
         aria-label="Primary"
-        className="hidden lg:flex fixed left-4 top-28 z-50 flex-col gap-3 select-none pointer-events-none"
+        className="hidden lg:flex fixed left-3 top-[4.5rem] z-50 flex-col gap-1.5 select-none pointer-events-none"
       >
         {/* Brand block */}
         <a
           href="#top"
-          className="pointer-events-auto group relative border-[3px] border-foreground bg-card brutal-shadow w-14 h-14 inline-flex flex-col items-center justify-center text-center font-mono uppercase font-bold"
+          className="pointer-events-auto group relative border-2 border-foreground bg-card brutal-shadow-sm w-9 h-9 inline-flex items-center justify-center font-mono uppercase font-bold"
           aria-label={`${portfolio.name} — back to top`}
         >
-          <Terminal className="h-5 w-5" strokeWidth={2.5} />
-          <span className="mt-0.5 leading-none tracking-widest text-[9px]">
-            {portfolio.name.split(" ").slice(-1)[0].slice(0, 4)}
-          </span>
+          <Terminal className="h-3.5 w-3.5" strokeWidth={2.5} />
 
           {/* Hover tooltip */}
           <span
             aria-hidden
-            className="pointer-events-none absolute left-full ml-3 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1 whitespace-nowrap border-2 border-foreground bg-background px-2 py-1 font-mono text-[10px] tracking-widest uppercase shadow-[4px_4px_0_0_var(--foreground)]"
+            className="pointer-events-none absolute left-full ml-2 top-1/2 -translate-y-1/2 hidden group-hover:flex items-center gap-1 whitespace-nowrap border-2 border-foreground bg-background px-1.5 py-0.5 font-mono text-[9px] tracking-widest uppercase shadow-[3px_3px_0_0_var(--foreground)]"
           >
-            <ArrowUpRight className="h-3 w-3" strokeWidth={3} />
-            BACK_TO_TOP
+            <ArrowUpRight className="h-2.5 w-2.5" strokeWidth={3} />
+            TOP
           </span>
         </a>
 
         {/* Nav cells */}
-        <ul className="pointer-events-auto flex flex-col border-[3px] border-foreground bg-card brutal-shadow">
+        <ul className="pointer-events-auto flex flex-col border-2 border-foreground bg-card brutal-shadow-sm max-h-[min(72vh,34rem)] overflow-y-auto overscroll-contain">
           {NAV.map(({ href, label, n, Icon }) => {
             const isActive = active === href;
             return (
               <li
                 key={href}
-                className="group relative border-b-2 border-foreground last:border-b-0"
+                className="group relative border-b border-foreground last:border-b-0"
               >
                 <a
                   href={href}
                   className={[
-                    "w-12 h-12 inline-flex items-center justify-center",
+                    "w-9 h-9 inline-flex items-center justify-center",
                     isActive
                       ? "bg-foreground text-background"
                       : "bg-card text-foreground hover:bg-accent",
@@ -148,19 +144,19 @@ export default function Header() {
                   aria-current={isActive ? "page" : undefined}
                   aria-label={`${n} ${label}`}
                 >
-                  <Icon className="h-5 w-5" strokeWidth={2.5} />
+                  <Icon className="h-3.5 w-3.5" strokeWidth={2.5} />
                 </a>
                 {/* Hover label — flies out to the right */}
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3 hidden group-hover:flex items-center gap-1.5 whitespace-nowrap border-2 border-foreground bg-background px-2.5 py-1.5 font-mono text-[10.5px] tracking-widest uppercase shadow-[4px_4px_0_0_var(--foreground)]"
+                  className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 hidden group-hover:flex items-center gap-1 whitespace-nowrap border-2 border-foreground bg-background px-2 py-1 font-mono text-[9px] tracking-widest uppercase shadow-[3px_3px_0_0_var(--foreground)]"
                 >
                   <span className="opacity-60">{n}</span>
                   <span className="opacity-30">/</span>
                   <span className="font-bold">{label}</span>
                   {isActive && (
                     <ArrowUpRight
-                      className="h-3 w-3 ml-0.5 text-accent"
+                      className="h-2.5 w-2.5 ml-0.5 text-accent"
                       strokeWidth={3}
                     />
                   )}
@@ -171,11 +167,13 @@ export default function Header() {
         </ul>
 
         {/* Status footer — current section / total */}
-        <div className="pointer-events-auto border-2 border-foreground bg-card brutal-shadow w-14 py-1.5 font-mono uppercase text-center font-bold text-[9px]">
-          <div className="leading-none tracking-widest">
+        <div className="pointer-events-auto border-2 border-foreground bg-card brutal-shadow-sm w-9 py-1 font-mono uppercase text-center font-bold text-[8px] leading-none tracking-widest">
+          <div>
             {String(NAV.findIndex((n) => n.href === active) + 1).padStart(2, "0")}
           </div>
-          <div className="mt-0.5 leading-none tracking-widest opacity-50">/ {String(NAV.length).padStart(2, "0")}</div>
+          <div className="mt-0.5 opacity-50">
+            /{String(NAV.length).padStart(2, "0")}
+          </div>
         </div>
       </aside>
 
