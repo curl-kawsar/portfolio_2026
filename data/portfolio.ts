@@ -211,15 +211,15 @@ export const portfolio: Portfolio = {
       location: "Cumilla, BD",
     },
     {
-      year: 2025,
+      year: 2026,
       result: "Hackathon Coordinator, Problem Setter & Mentor",
-      event: "BAIUST CSE Spring Fest 2025",
+      event: "BAIUST CSE Spring Fest 2026",
       location: "Cumilla, BD",
     },
     {
-      year: 2025,
+      year: 2026,
       result: "Prompt Engineering Coordinator, Problem Setter & Mentor",
-      event: "BAIUST CSE Spring Fest 2025",
+      event: "BAIUST CSE Spring Fest 2026",
       location: "Cumilla, BD",
     },
   ],
@@ -248,8 +248,8 @@ export const portfolio: Portfolio = {
     },
     {
       title: "Hackathon Coordinator, Problem Setter & Mentor",
-      org: "BAIUST CSE Spring Fest 2025",
-      period: "2025",
+      org: "BAIUST CSE Spring Fest 2026",
+      period: "2026",
       bullets: [
         "Led hackathon coordination for Spring Fest — registration, venue flow, and mentor rotations during the contest.",
         "**Problem setter** for the hackathon track; coached teams on APIs, data modeling, and demo-ready scope.",
@@ -258,8 +258,8 @@ export const portfolio: Portfolio = {
     },
     {
       title: "Prompt Engineering Coordinator, Problem Setter & Mentor",
-      org: "BAIUST CSE Spring Fest 2025",
-      period: "2025",
+      org: "BAIUST CSE Spring Fest 2026",
+      period: "2026",
       bullets: [
         "Designed and ran the **Prompt Engineering** segment — challenge briefs, rubric, and live mentoring.",
         "Crafted problems that reward **practical LLM use** — chaining, evaluation, and time-boxed trade-offs.",
@@ -397,8 +397,8 @@ export const portfolio: Portfolio = {
     },
     {
       title: "Hackathon Coordinator, Problem Setter & Mentor",
-      org: "BAIUST CSE Spring Fest 2025",
-      period: "2025",
+      org: "BAIUST CSE Spring Fest 2026",
+      period: "2026",
       metric: "Spring Fest hackathon · **Coordinator** & mentor",
       bullets: [
         "Led hackathon coordination for Spring Fest alongside IUPC, typing contest, and ICT quiz programming.",
@@ -408,8 +408,8 @@ export const portfolio: Portfolio = {
     },
     {
       title: "Prompt Engineering Coordinator, Problem Setter & Mentor",
-      org: "BAIUST CSE Spring Fest 2025",
-      period: "2025",
+      org: "BAIUST CSE Spring Fest 2026",
+      period: "2026",
       metric: "Prompt Engineering segment · **Coordinator** & problem author",
       bullets: [
         "Designed and ran the **Prompt Engineering** track — briefs, rubric, and live mentoring during the contest.",
