@@ -1,4 +1,5 @@
 import type { GalleryLoveImage } from "@/lib/db";
+import { getLoveForImage, withImageLove } from "@/lib/galleryLoveUtils";
 
 const LOVED_KEY = "portfolio_gallery_loved_v1";
 
@@ -38,14 +39,14 @@ export function applyServerLoveState(
   serverImages: Record<string, GalleryLoveImage>
 ): { total: number; images: Record<string, GalleryLoveImage> } {
   const localLoved = readLovedImageKeys();
-  const images: Record<string, GalleryLoveImage> = { ...serverImages };
+  let images: Record<string, GalleryLoveImage> = { ...serverImages };
 
   for (const key of localLoved) {
-    const existing = images[key];
+    const existing = getLoveForImage(images, key);
     if (existing) {
-      images[key] = { ...existing, loved: existing.loved || true };
+      images = withImageLove(images, key, { ...existing, loved: true });
     } else {
-      images[key] = { count: 0, loved: true };
+      images = withImageLove(images, key, { count: 0, loved: true });
     }
   }
 

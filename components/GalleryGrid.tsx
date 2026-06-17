@@ -58,10 +58,10 @@ export default function GalleryGrid({ photos }: Props) {
                 i % 5 === 0 ? "sm:col-span-2 sm:row-span-2" : "",
               ].join(" ")}
             >
-              <div className="absolute -top-3 left-3 z-10 bg-foreground text-background border-2 border-foreground px-2 py-0.5 font-mono text-[10px] tracking-widest uppercase">
+              <div className="pointer-events-none absolute -top-3 left-3 z-10 bg-foreground text-background border-2 border-foreground px-2 py-0.5 font-mono text-[10px] tracking-widest uppercase">
                 [ {String(i + 1).padStart(2, "0")} ]
               </div>
-              <div className="relative aspect-square w-full overflow-hidden border-b-[3px] border-foreground bg-background">
+              <div className="relative isolate aspect-square w-full overflow-hidden border-b-[3px] border-foreground bg-background">
                 <Image
                   src={`/hackathons/${file}`}
                   alt={`Photo ${i + 1}`}

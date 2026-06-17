@@ -26,9 +26,10 @@ export default function GalleryLoveIcon({ imageKey, size = "sm" }: Props) {
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
+        if (loved) return;
         void sendLove(imageKey);
       }}
-      disabled={loved}
+      aria-disabled={loved}
       aria-label={
         loved
           ? `Loved · ${count} on this photo`
@@ -36,11 +37,11 @@ export default function GalleryLoveIcon({ imageKey, size = "sm" }: Props) {
       }
       aria-pressed={loved}
       className={[
-        "absolute left-1.5 top-1.5 z-10 inline-flex items-center gap-1 border-2 border-foreground brutal-shadow-sm transition-[transform,background-color]",
+        "absolute left-1.5 top-1.5 z-20 inline-flex items-center gap-1 border-2 border-foreground brutal-shadow-sm transition-[transform,background-color] pointer-events-auto",
         size === "sm" ? "px-1 py-1" : "px-1.5 py-1",
         loved
-          ? "bg-accent cursor-default"
-          : "bg-background/90 hover:bg-accent",
+          ? "bg-accent cursor-default opacity-90"
+          : "bg-background/90 hover:bg-accent cursor-pointer",
         popping ? "scale-110" : "scale-100",
       ].join(" ")}
     >
