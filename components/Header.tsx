@@ -10,9 +10,10 @@ import {
   Wrench,
   GraduationCap,
   Mail,
-  X,
   ArrowUpRight,
   Terminal,
+  FileText,
+  Mic,
 } from "lucide-react";
 import { portfolio } from "@/data/portfolio";
 
@@ -22,9 +23,11 @@ const NAV = [
   { href: "#experience", label: "Jobs", n: "03", Icon: Building2 },
   { href: "#work", label: "Work", n: "04", Icon: Briefcase },
   { href: "#recognition", label: "Awards", n: "05", Icon: Trophy },
-  { href: "#leadership", label: "Lead", n: "07", Icon: Users },
-  { href: "#education", label: "Edu", n: "08", Icon: GraduationCap },
-  { href: "#contact", label: "Mail", n: "11", Icon: Mail },
+  { href: "#blog", label: "Blog", n: "07", Icon: FileText },
+  { href: "#mentorship", label: "Mentor", n: "08", Icon: Mic },
+  { href: "#leadership", label: "Lead", n: "09", Icon: Users },
+  { href: "#education", label: "Edu", n: "10", Icon: GraduationCap },
+  { href: "#contact", label: "Mail", n: "12", Icon: Mail },
 ];
 
 /**

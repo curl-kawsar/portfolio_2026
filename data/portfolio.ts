@@ -65,6 +65,19 @@ export type Testimonial = {
   video: string;
 };
 
+export type MentorshipStat = {
+  label: string;
+  value: string;
+};
+
+export type MentorshipActivity = {
+  title: string;
+  org: string;
+  period?: string;
+  metric?: string;
+  bullets: string[];
+};
+
 export type Portfolio = {
   name: string;
   role: string;
@@ -85,6 +98,8 @@ export type Portfolio = {
   education: EducationEntry[];
   references: Reference[];
   testimonials: Testimonial[];
+  mentorshipStats: MentorshipStat[];
+  mentorshipActivities: MentorshipActivity[];
 };
 
 export const portfolio: Portfolio = {
@@ -302,6 +317,56 @@ export const portfolio: Portfolio = {
       quote:
         "A dependable engineer who communicates clearly, meets deadlines, and handles production pressure with composure.",
       video: "molla.mp4",
+    },
+  ],
+
+  mentorshipStats: [
+    { label: "Students coached", value: "102+" },
+    { label: "Modules shipped", value: "6" },
+    { label: "Weekly round-table", value: "40 avg" },
+    { label: "Hackathon teams", value: "51" },
+  ],
+
+  mentorshipActivities: [
+    {
+      title: "Engineering Adda",
+      org: "BAIUST Computer Club (BCC)",
+      period: "2024 — Present",
+      metric: "Twice-weekly tech round-tables · **40 attendees** on average",
+      bullets: [
+        "Host open **engineering discussions** on system design, shipping, and career growth for club members.",
+        "Built a consistent format: one topic, one demo, one debate — keeps sessions practical, not slide-heavy.",
+      ],
+    },
+    {
+      title: "Software Intern Program",
+      org: "BAIUST Computer Club (BCC)",
+      period: "2024 — Present",
+      metric: "Coached **102 students** to ship **6 campus modules**",
+      bullets: [
+        "Designed the intern track: repo standards, PR reviews, and weekly ship checkpoints.",
+        "Mentored squads from idea → MVP → handoff to faculty/student users.",
+      ],
+    },
+    {
+      title: "Hackathon Organizer & Mentor",
+      org: "BAIUST CSE FEST 2025",
+      period: "2025",
+      metric: "**51 teams** · **196 participants** · **90% NPS**",
+      bullets: [
+        "Co-organized a **24-hour national hackathon** plus IUPC, typing contest, and ICT quiz for **600+ participants**.",
+        "**Problem setter** for the hackathon track; mentored teams on architecture and scope during the event.",
+      ],
+    },
+    {
+      title: "Problem Setter",
+      org: "BAIUST CSE FEST (Spring & Fall)",
+      period: "2025",
+      metric: "Authored challenges for **2 national hackathons**",
+      bullets: [
+        "Crafted problems that reward **real engineering** — APIs, data modeling, and time-boxed trade-offs.",
+        "Balanced difficulty so student teams could ship a working demo within the contest window.",
+      ],
     },
   ],
 };

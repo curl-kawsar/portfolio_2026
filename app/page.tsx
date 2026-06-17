@@ -7,6 +7,8 @@ import ExperienceSection from "@/components/ExperienceSection";
 import WorkSection from "@/components/WorkSection";
 import RecognitionSection from "@/components/RecognitionSection";
 import GallerySection from "@/components/GallerySection";
+import BlogTeaserSection from "@/components/BlogTeaserSection";
+import SpeakingMentorshipSection from "@/components/SpeakingMentorshipSection";
 import LeadershipSection from "@/components/LeadershipSection";
 import SkillsSection from "@/components/SkillsSection";
 import EducationSection from "@/components/EducationSection";
@@ -33,6 +35,11 @@ export default function Page() {
         />
         <RecognitionSection />
         <GallerySection />
+        <BlogTeaserSection />
+        <SpeakingMentorshipSection
+          stats={portfolio.mentorshipStats}
+          activities={portfolio.mentorshipActivities}
+        />
         {/* <TestimonialsSection /> */}
         <LeadershipSection roles={portfolio.leadership} />
         <EducationSection />
