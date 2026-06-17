@@ -16,7 +16,7 @@ export function renderBoldText(text: string) {
     }
 
     parts.push(
-      <strong key={key++} className="font-bold text-foreground">
+      <strong key={key++} className="font-bold">
         {match[1]}
       </strong>
     );

@@ -27,7 +27,7 @@ export default function ProjectCard({ project, index }: Props) {
           </h3>
         </header>
 
-        <p className="mt-3 inline-flex items-center gap-1.5 border-2 border-foreground bg-foreground text-background px-2 py-1 font-mono text-[11px] tracking-widest uppercase">
+        <p className="mt-3 inline-flex flex-wrap items-center gap-1.5 border-2 border-foreground bg-foreground text-background px-2 py-1 font-mono text-[11px] tracking-widest uppercase [&_strong]:text-accent">
           <Star className="h-3 w-3 shrink-0" strokeWidth={2.5} />
           <span>{renderBoldText(project.metric)}</span>
         </p>
