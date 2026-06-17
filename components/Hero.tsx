@@ -3,7 +3,6 @@ import { Mail, Phone, MapPin, Terminal, FileText, Handshake, ArrowUpRight } from
 import { portfolio } from "@/data/portfolio";
 import Reveal from "./Reveal";
 import { LinkedinIcon } from "./icons/LinkedinIcon";
-
 export default function Hero() {
   const hasPhoto = Boolean(portfolio.photoUrl);
 

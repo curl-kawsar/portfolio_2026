@@ -15,7 +15,8 @@ export function listHackathonPhotos(): string[] {
   return fs
     .readdirSync(dir)
     .filter((name) => PHOTO_EXT.test(name))
-    .sort();
+    .sort((a, b) =>
+      a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" })
+    );
 }
 
-export const hackathonPhotos: string[] = listHackathonPhotos();

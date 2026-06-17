@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { portfolio } from "@/data/portfolio";
-import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import LoveShell from "@/components/LoveShell";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -66,8 +66,9 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-screen bg-background text-foreground font-sans">
-        {children}
-        <FloatingWhatsApp />
+        <LoveShell>
+          <div className="relative z-10">{children}</div>
+        </LoveShell>
       </body>
     </html>
   );
