@@ -1,4 +1,5 @@
 import { neon } from "@neondatabase/serverless";
+import { getLoveForImage } from "@/lib/galleryLoveUtils";
 
 export type ContactMessage = {
   id: number;
@@ -189,6 +190,15 @@ export type GalleryLoveImage = {
   loved: boolean;
 };
 
+function visitorLovedKey(lovedSet: Set<string>, imageKey: string): boolean {
+  if (lovedSet.has(imageKey)) return true;
+  const lower = imageKey.toLowerCase();
+  for (const key of lovedSet) {
+    if (key.toLowerCase() === lower) return true;
+  }
+  return false;
+}
+
 export async function getGalleryLoveState(visitorId?: string) {
   await ensureSchema();
   const sql = getSql();
@@ -213,7 +223,7 @@ export async function getGalleryLoveState(visitorId?: string) {
   for (const row of countRows) {
     const key = String(row.image_key);
     const count = Number(row.count);
-    images[key] = { count, loved: lovedSet.has(key) };
+    images[key] = { count, loved: visitorLovedKey(lovedSet, key) };
     total += count;
   }
 
@@ -229,6 +239,26 @@ export async function getGalleryLoveState(visitorId?: string) {
 export async function toggleGalleryLove(visitorId: string, imageKey: string) {
   await ensureSchema();
   const sql = getSql();
+
+  const already = await sql`
+    SELECT image_key FROM gallery_loves
+    WHERE visitor_id = ${visitorId}
+      AND LOWER(image_key) = LOWER(${imageKey})
+    LIMIT 1
+  `;
+
+  if (already.length > 0) {
+    const state = await getGalleryLoveState(visitorId);
+    const current = getLoveForImage(state.images, imageKey) ?? {
+      count: 0,
+      loved: true,
+    };
+    return {
+      total: state.total,
+      image: current,
+      alreadyLoved: true,
+    };
+  }
 
   const inserted = await sql`
     INSERT INTO gallery_loves (image_key, visitor_id)

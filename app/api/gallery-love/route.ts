@@ -4,13 +4,39 @@ import { getGalleryLoveState, toggleGalleryLove } from "@/lib/db";
 
 const VISITOR_COOKIE = "visitor_id";
 
+const VISITOR_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax" as const,
+  path: "/",
+  maxAge: 60 * 60 * 24 * 365,
+};
+
+async function resolveVisitorId() {
+  const cookieStore = await cookies();
+  let visitorId = cookieStore.get(VISITOR_COOKIE)?.value;
+  const isNew = !visitorId;
+  if (!visitorId) visitorId = crypto.randomUUID();
+  return { visitorId, isNew };
+}
+
+function withVisitorCookie(
+  response: NextResponse,
+  visitorId: string,
+  isNew: boolean
+) {
+  if (isNew) {
+    response.cookies.set(VISITOR_COOKIE, visitorId, VISITOR_COOKIE_OPTIONS);
+  }
+  return response;
+}
+
 export async function GET() {
   try {
-    const cookieStore = await cookies();
-    const visitorId = cookieStore.get(VISITOR_COOKIE)?.value;
+    const { visitorId, isNew } = await resolveVisitorId();
     const state = await getGalleryLoveState(visitorId);
-
-    return NextResponse.json(state);
+    const response = NextResponse.json(state);
+    return withVisitorCookie(response, visitorId, isNew);
   } catch (error) {
     console.error("Gallery love GET error:", error);
     return NextResponse.json(
@@ -31,10 +57,7 @@ export async function POST(request: Request) {
 
     const cookieStore = await cookies();
     let visitorId = cookieStore.get(VISITOR_COOKIE)?.value;
-
-    if (!visitorId) {
-      visitorId = crypto.randomUUID();
-    }
+    if (!visitorId) visitorId = crypto.randomUUID();
 
     const result = await toggleGalleryLove(visitorId, imageKey);
     const state = await getGalleryLoveState(visitorId);
@@ -47,14 +70,7 @@ export async function POST(request: Request) {
       alreadyLoved: result.alreadyLoved,
     });
 
-    response.cookies.set(VISITOR_COOKIE, visitorId, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 365,
-    });
-
+    response.cookies.set(VISITOR_COOKIE, visitorId, VISITOR_COOKIE_OPTIONS);
     return response;
   } catch (error) {
     console.error("Gallery love POST error:", error);
