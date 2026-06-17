@@ -46,7 +46,7 @@ function EducationCard({
           <h3 className="text-xl font-bold tracking-tight sm:text-2xl">
             {entry.institution}
           </h3>
-          <p className="mt-1 text-[15px] leading-relaxed">{entry.degree}</p>
+          <p className="mt-1 text-[15px] leading-relaxed text-justify">{entry.degree}</p>
 
           <dl className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-4">
             {entry.result && (
@@ -66,7 +66,7 @@ function EducationCard({
                   <BookOpen className="h-3 w-3" strokeWidth={2.5} />
                   Thesis
                 </dt>
-                <dd className="mt-1 text-[15px] leading-snug">
+                <dd className="mt-1 text-[15px] leading-snug text-justify">
                   &ldquo;{entry.thesis}&rdquo;
                 </dd>
               </div>
@@ -90,7 +90,7 @@ function EducationCard({
                       strokeWidth={3}
                       aria-hidden
                     />
-                    <span>{h}</span>
+                    <span className="flex-1 min-w-0 text-justify">{h}</span>
                   </li>
                 ))}
               </ul>

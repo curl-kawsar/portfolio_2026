@@ -14,16 +14,16 @@ export default function About() {
     >
       <SectionHeading index="01" label="About" />
 
-      <div className="space-y-5 text-[15px] leading-relaxed sm:text-base">
+      <div className="space-y-5 text-[15px] leading-relaxed text-justify sm:text-base">
         {rest.map((p, i) => (
           <Reveal key={i} delay={i * 40}>
             <div className="border-l-[6px] border-foreground pl-4">
-              <p>{renderBoldText(p)}</p>
+              <p className="text-justify">{renderBoldText(p)}</p>
             </div>
           </Reveal>
         ))}
         <Reveal delay={rest.length * 40}>
-          <blockquote className="mt-6 border-[3px] border-foreground bg-foreground text-background p-5 font-mono text-sm tracking-wide [&_strong]:text-accent">
+          <blockquote className="mt-6 border-[3px] border-foreground bg-foreground text-background p-5 font-mono text-sm tracking-wide text-justify [&_strong]:text-accent">
             <span aria-hidden className="block text-accent text-2xl leading-none mb-2">
               &gt;&gt;
             </span>

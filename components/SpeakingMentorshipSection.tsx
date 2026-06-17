@@ -79,7 +79,7 @@ function ActivityCard({
                   strokeWidth={3}
                   aria-hidden
                 />
-                <span>{renderBoldText(b)}</span>
+                <span className="flex-1 min-w-0 text-justify">{renderBoldText(b)}</span>
               </li>
             ))}
           </ul>
