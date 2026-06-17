@@ -23,11 +23,15 @@ export default function GalleryLoveIcon({ imageKey, size = "sm" }: Props) {
   return (
     <button
       type="button"
+      onPointerDown={(e) => {
+        if (e.button !== 0) return;
+        e.stopPropagation();
+        if (loved) return;
+        void sendLove(imageKey);
+      }}
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();
-        if (loved) return;
-        void sendLove(imageKey);
       }}
       aria-disabled={loved}
       aria-label={
@@ -37,7 +41,7 @@ export default function GalleryLoveIcon({ imageKey, size = "sm" }: Props) {
       }
       aria-pressed={loved}
       className={[
-        "absolute left-1.5 top-1.5 z-20 inline-flex items-center gap-1 border-2 border-foreground brutal-shadow-sm transition-[transform,background-color] pointer-events-auto",
+        "absolute left-1.5 top-1.5 z-40 inline-flex items-center gap-1 border-2 border-foreground brutal-shadow-sm transition-[transform,background-color] pointer-events-auto touch-manipulation",
         size === "sm" ? "px-1 py-1" : "px-1.5 py-1",
         loved
           ? "bg-accent cursor-default opacity-90"

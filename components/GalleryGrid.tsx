@@ -53,7 +53,6 @@ export default function GalleryGrid({ photos }: Props) {
             <figure
               className={[
                 "group relative border-[3px] border-foreground bg-card brutal-shadow-accent",
-                "hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none",
                 "transition-[transform,box-shadow]",
                 i % 5 === 0 ? "sm:col-span-2 sm:row-span-2" : "",
               ].join(" ")}
@@ -67,18 +66,20 @@ export default function GalleryGrid({ photos }: Props) {
                   alt={`Photo ${i + 1}`}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-cover"
+                  className="pointer-events-none object-cover"
                 />
                 <ImageWatermark size="sm" />
-                <GalleryLoveIcon imageKey={file} size="sm" />
-                <button
-                  type="button"
-                  onClick={() => setActiveIndex(i)}
-                  aria-label={`View photo ${i + 1} in full size`}
-                  className="absolute right-2 bottom-2 z-10 inline-flex items-center gap-1 border-[3px] border-foreground bg-background text-foreground px-2 py-1 font-mono text-[10px] tracking-widest uppercase opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 transition-opacity brutal-shadow cursor-pointer"
-                >
-                  View
-                </button>
+                <div className="absolute inset-0 z-30 pointer-events-none">
+                  <GalleryLoveIcon imageKey={file} size="sm" />
+                  <button
+                    type="button"
+                    onClick={() => setActiveIndex(i)}
+                    aria-label={`View photo ${i + 1} in full size`}
+                    className="pointer-events-auto absolute right-2 bottom-2 z-10 inline-flex items-center gap-1 border-[3px] border-foreground bg-background text-foreground px-2 py-1 font-mono text-[10px] tracking-widest uppercase opacity-100 sm:pointer-events-none sm:opacity-0 sm:group-hover:pointer-events-auto sm:group-focus-within:pointer-events-auto sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 transition-opacity brutal-shadow cursor-pointer"
+                  >
+                    View
+                  </button>
+                </div>
               </div>
               <figcaption className="px-3 py-2 font-mono text-[10px] tracking-widest uppercase text-muted">
                 {file.replace(/\.[^.]+$/, "")}

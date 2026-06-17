@@ -102,12 +102,12 @@ export default function Header() {
       {/* Desktop floating sidebar */}
       <aside
         aria-label="Primary"
-        className="hidden lg:flex fixed left-4 top-28 z-50 flex-col gap-3 select-none"
+        className="hidden lg:flex fixed left-4 top-28 z-50 flex-col gap-3 select-none pointer-events-none"
       >
         {/* Brand block */}
         <a
           href="#top"
-          className="group relative border-[3px] border-foreground bg-card brutal-shadow w-14 h-14 inline-flex flex-col items-center justify-center text-center font-mono uppercase font-bold"
+          className="pointer-events-auto group relative border-[3px] border-foreground bg-card brutal-shadow w-14 h-14 inline-flex flex-col items-center justify-center text-center font-mono uppercase font-bold"
           aria-label={`${portfolio.name} — back to top`}
         >
           <Terminal className="h-5 w-5" strokeWidth={2.5} />
@@ -126,7 +126,7 @@ export default function Header() {
         </a>
 
         {/* Nav cells */}
-        <ul className="flex flex-col border-[3px] border-foreground bg-card brutal-shadow">
+        <ul className="pointer-events-auto flex flex-col border-[3px] border-foreground bg-card brutal-shadow">
           {NAV.map(({ href, label, n, Icon }) => {
             const isActive = active === href;
             return (
@@ -168,7 +168,7 @@ export default function Header() {
         </ul>
 
         {/* Status footer — current section / total */}
-        <div className="border-2 border-foreground bg-card brutal-shadow w-14 py-1.5 font-mono uppercase text-center font-bold text-[9px]">
+        <div className="pointer-events-auto border-2 border-foreground bg-card brutal-shadow w-14 py-1.5 font-mono uppercase text-center font-bold text-[9px]">
           <div className="leading-none tracking-widest">
             {String(NAV.findIndex((n) => n.href === active) + 1).padStart(2, "0")}
           </div>
