@@ -33,10 +33,10 @@ export default function Page() {
         />
         <RecognitionSection />
         <GallerySection />
-        <TestimonialsSection />
+        {/* <TestimonialsSection /> */}
         <LeadershipSection roles={portfolio.leadership} />
         <EducationSection />
-        {/* <ReferencesSection /> */}
+        <ReferencesSection />
         <ContactSection />
       </main>
       <Footer />
