@@ -23,12 +23,34 @@ export default function SkillsSection({ groups }: Props) {
     >
       <SectionHeading index="02" label="Skills" />
 
-      <div className="mt-2 flex flex-col gap-6 lg:flex-row lg:gap-0">
+      {/* Mobile stats strip */}
+      <div className="mt-2 grid grid-cols-2 gap-3 lg:hidden">
+        <div className="border-[3px] border-foreground bg-foreground text-background px-4 py-3 brutal-shadow">
+          <p className="font-mono text-[10px] tracking-widest uppercase opacity-70">
+            Domains
+          </p>
+          <p className="text-4xl font-black tabular-nums leading-none mt-1">
+            {String(groups.length).padStart(2, "0")}
+          </p>
+        </div>
+        <div className="border-[3px] border-foreground bg-accent px-4 py-3 brutal-shadow">
+          <p className="font-mono text-[10px] tracking-widest uppercase opacity-70">
+            Tools
+          </p>
+          <p className="text-4xl font-black tabular-nums leading-none mt-1">
+            {totalSkills}
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-5 lg:mt-2 lg:gap-0 lg:flex-row">
+        {/* Category picker */}
         <nav
           aria-label="Skill categories"
           className="lg:w-[38%] lg:border-r-[3px] lg:border-foreground"
         >
-          <div className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0 lg:gap-0">
+          {/* Mobile: icon-forward snap chips */}
+          <div className="flex gap-2.5 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-none lg:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {groups.map((group, i) => {
               const isActive = i === active;
               const num = String(i + 1).padStart(2, "0");
@@ -40,10 +62,47 @@ export default function SkillsSection({ groups }: Props) {
                   onClick={() => setActive(i)}
                   aria-current={isActive ? "true" : undefined}
                   className={[
-                    "group shrink-0 text-left border-[3px] border-foreground px-4 py-3 transition-colors lg:shrink lg:border-0 lg:border-b-[2px] lg:px-5 lg:py-4 lg:last:border-b-0",
+                    "snap-start shrink-0 flex flex-col items-center justify-center gap-2 border-[3px] border-foreground px-3 py-3 min-w-[5.5rem] transition-[transform,box-shadow,background-color]",
                     isActive
-                      ? "bg-foreground text-background lg:border-l-[6px] lg:border-l-accent lg:pl-[calc(1.25rem-3px)]"
-                      : "bg-card hover:bg-accent/30 lg:bg-transparent lg:hover:bg-accent/20",
+                      ? "bg-accent brutal-shadow scale-[1.02]"
+                      : "bg-card",
+                  ].join(" ")}
+                >
+                  <CategoryIcon
+                    category={group.category}
+                    className={[
+                      "h-6 w-6",
+                      isActive ? "text-foreground" : "text-foreground/70",
+                    ].join(" ")}
+                  />
+                  <span className="font-mono text-[10px] tracking-widest tabular-nums">
+                    {num}
+                  </span>
+                  <span className="max-w-[5rem] text-center text-[9px] font-bold uppercase leading-tight tracking-wide line-clamp-2">
+                    {group.category.split(" ")[0]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Desktop: vertical index */}
+          <div className="hidden lg:flex lg:flex-col lg:gap-0">
+            {groups.map((group, i) => {
+              const isActive = i === active;
+              const num = String(i + 1).padStart(2, "0");
+
+              return (
+                <button
+                  key={group.category}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  aria-current={isActive ? "true" : undefined}
+                  className={[
+                    "group w-full text-left border-b-[2px] border-foreground px-5 py-4 transition-colors last:border-b-0",
+                    isActive
+                      ? "bg-foreground text-background border-l-[6px] border-l-accent pl-[calc(1.25rem-3px)]"
+                      : "hover:bg-accent/20",
                   ].join(" ")}
                 >
                   <span className="flex items-center gap-3">
@@ -66,7 +125,7 @@ export default function SkillsSection({ groups }: Props) {
                       <span className="block font-mono text-[10px] tracking-widest uppercase opacity-60">
                         {group.items.length} tools
                       </span>
-                      <span className="block text-sm font-bold tracking-tight sm:text-base lg:text-lg">
+                      <span className="block text-lg font-bold tracking-tight">
                         {group.category}
                       </span>
                     </span>
@@ -77,19 +136,44 @@ export default function SkillsSection({ groups }: Props) {
           </div>
         </nav>
 
+        {/* Spotlight */}
         <div className="relative flex-1 lg:pl-8">
+          {/* Mobile hero card */}
+          <div
+            key={`${current.category}-hero`}
+            className="border-[3px] border-foreground bg-accent p-4 brutal-shadow lg:hidden"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="font-mono text-[10px] tracking-[0.25em] uppercase opacity-70">
+                  [{String(active + 1).padStart(2, "0")}] Active lane
+                </p>
+                <h3 className="mt-1 text-2xl font-black tracking-tight leading-tight">
+                  {current.category}
+                </h3>
+                <p className="mt-1 font-mono text-xs tracking-widest uppercase">
+                  {current.items.length} capabilities
+                </p>
+              </div>
+              <CategoryIcon
+                category={current.category}
+                className="h-10 w-10 shrink-0"
+              />
+            </div>
+          </div>
+
           <div
             key={current.category}
-            className="relative min-h-[280px] sm:min-h-[320px]"
+            className="relative mt-4 min-h-0 lg:mt-0 lg:min-h-[320px]"
           >
             <span
               aria-hidden
-              className="pointer-events-none absolute -top-4 right-0 select-none font-mono font-black leading-none tracking-tighter text-[clamp(5rem,16vw,11rem)] text-transparent [-webkit-text-stroke:2px_var(--foreground)] opacity-[0.07]"
+              className="pointer-events-none absolute -top-4 right-0 hidden select-none font-mono font-black leading-none tracking-tighter text-[clamp(5rem,16vw,11rem)] text-transparent [-webkit-text-stroke:2px_var(--foreground)] opacity-[0.07] lg:block"
             >
               {String(active + 1).padStart(2, "0")}
             </span>
 
-            <div className="flex items-center gap-2">
+            <div className="hidden items-center gap-2 lg:flex">
               <CategoryIcon
                 category={current.category}
                 className="h-5 w-5 text-accent"
@@ -98,21 +182,37 @@ export default function SkillsSection({ groups }: Props) {
                 {current.category}
               </p>
             </div>
-            <h3 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
+            <h3 className="mt-2 hidden text-3xl font-black tracking-tight lg:block">
               {current.items.length} capabilities
             </h3>
 
-            <ul className="mt-8 space-y-0">
+            {/* Mobile: 2-col skill grid */}
+            <ul className="mt-0 grid grid-cols-2 gap-2.5 lg:hidden">
+              {current.items.map((skill) => (
+                <li
+                  key={skill}
+                  className="flex flex-col gap-2 border-[3px] border-foreground bg-card p-3 brutal-shadow-sm active:bg-accent active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-[transform,box-shadow,background-color]"
+                >
+                  <SkillIcon skill={skill} className="h-6 w-6" />
+                  <span className="text-xs font-bold leading-snug tracking-tight">
+                    {skill}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Desktop: typographic list */}
+            <ul className="mt-8 hidden space-y-0 lg:block">
               {current.items.map((skill, i) => (
                 <li
                   key={skill}
                   className="group border-t-[2px] border-foreground/15 first:border-t-0"
                 >
-                  <div className="flex items-center gap-3 sm:gap-4 py-3 sm:py-3.5">
+                  <div className="flex items-center gap-4 py-3.5">
                     <span
                       aria-hidden
                       className={[
-                        "font-mono text-[10px] tracking-widest tabular-nums transition-colors",
+                        "font-mono text-[10px] tracking-widest tabular-nums",
                         i === 0 ? "text-accent" : "text-muted/50",
                       ].join(" ")}
                     >
@@ -122,22 +222,22 @@ export default function SkillsSection({ groups }: Props) {
                       skill={skill}
                       className={[
                         "shrink-0 transition-transform group-hover:scale-110",
-                        i === 0 ? "h-6 w-6 sm:h-7 sm:w-7" : "h-5 w-5 sm:h-6 sm:w-6",
+                        i === 0 ? "h-7 w-7" : "h-6 w-6",
                       ].join(" ")}
                     />
                     <span
                       className={[
                         "flex-1 font-black tracking-tight transition-colors",
                         i === 0
-                          ? "text-2xl sm:text-4xl text-foreground"
-                          : "text-xl sm:text-2xl text-foreground/85 group-hover:text-foreground",
+                          ? "text-4xl text-foreground"
+                          : "text-2xl text-foreground/85 group-hover:text-foreground",
                       ].join(" ")}
                     >
                       {skill}
                     </span>
                     <span
                       aria-hidden
-                      className="hidden h-[2px] flex-1 max-w-[4rem] bg-accent opacity-0 transition-opacity group-hover:opacity-100 sm:block"
+                      className="h-[2px] flex-1 max-w-[4rem] bg-accent opacity-0 transition-opacity group-hover:opacity-100"
                     />
                   </div>
                 </li>
@@ -145,13 +245,13 @@ export default function SkillsSection({ groups }: Props) {
             </ul>
           </div>
 
-          <p className="mt-6 font-mono text-[10px] tracking-widest uppercase text-muted">
-            {groups.length} domains · {totalSkills} tools · pick a lane
+          <p className="mt-5 font-mono text-[10px] tracking-widest uppercase text-muted text-center lg:mt-6 lg:text-left">
+            {groups.length} domains · {totalSkills} tools · swipe lanes
           </p>
         </div>
       </div>
 
-      <div className="mt-10 border-y-[2px] border-foreground py-3 overflow-hidden">
+      <div className="mt-8 border-y-[2px] border-foreground py-3 overflow-hidden lg:mt-10">
         <div className="skill-marquee-track flex w-max gap-8 font-mono text-[11px] tracking-widest uppercase text-muted">
           {marqueeItems.map((skill, i) => (
             <span
