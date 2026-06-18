@@ -4,16 +4,24 @@ import { listTestimonialVideos } from "@/lib/testimonialVideos";
 import { resolveTestimonialSrc } from "@/lib/testimonialResolve";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
-import TestimonialShowcase from "./TestimonialShowcase";
+import TestimonialsCarousel from "./TestimonialsCarousel";
 
 export default function TestimonialsSection() {
   const available = listTestimonialVideos();
-  const featured = portfolio.testimonials[0];
+  const items = portfolio.testimonials
+    .map((testimonial) => ({
+      testimonial,
+      src: resolveTestimonialSrc(testimonial, available),
+    }))
+    .filter(
+      (item): item is { testimonial: (typeof portfolio.testimonials)[number]; src: string } =>
+        item.src !== null
+    );
 
-  if (!featured) return null;
+  if (items.length === 0) return null;
 
-  const src = resolveTestimonialSrc(featured, available);
-  if (!src) return null;
+  const clipCount = String(items.length).padStart(2, "0");
+  const orgs = [...new Set(items.map((item) => item.testimonial.org))];
 
   return (
     <section
@@ -28,7 +36,7 @@ export default function TestimonialsSection() {
             <p className="font-mono text-[10px] tracking-widest uppercase text-muted">
               Clips
             </p>
-            <p className="mt-1 text-2xl font-black tabular-nums">01</p>
+            <p className="mt-1 text-2xl font-black tabular-nums">{clipCount}</p>
           </div>
           <div className="border-[3px] border-foreground bg-accent px-4 py-3 brutal-shadow">
             <p className="font-mono text-[10px] tracking-widest uppercase">
@@ -44,15 +52,13 @@ export default function TestimonialsSection() {
               <MessageSquareQuote className="h-3.5 w-3.5" strokeWidth={2.5} />
               Source
             </p>
-            <p className="mt-1 text-sm font-bold tracking-tight">
-              {featured.org}
-            </p>
+            <p className="mt-1 text-sm font-bold tracking-tight">{orgs.join(" · ")}</p>
           </div>
         </div>
       </Reveal>
 
       <Reveal delay={60}>
-        <TestimonialShowcase testimonial={featured} src={src} />
+        <TestimonialsCarousel items={items} />
       </Reveal>
     </section>
   );

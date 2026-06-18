@@ -33,7 +33,7 @@ export default function Image() {
             opacity: 0.7,
           }}
         >
-          imkawsar.com
+          www.imkawsar.com
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div

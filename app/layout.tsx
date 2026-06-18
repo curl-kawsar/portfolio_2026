@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { cookies } from "next/headers";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { portfolio } from "@/data/portfolio";
 import { getGalleryLoveState } from "@/lib/db";
@@ -88,6 +90,8 @@ export default async function RootLayout({
         <LoveShell initialLove={initialLove}>
           <div className="relative z-10">{children}</div>
         </LoveShell>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

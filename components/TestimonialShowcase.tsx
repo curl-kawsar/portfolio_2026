@@ -16,9 +16,16 @@ const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 type Props = {
   testimonial: Testimonial;
   src: string;
+  clipLabel?: string;
+  totalClips?: number;
 };
 
-export default function TestimonialShowcase({ testimonial, src }: Props) {
+export default function TestimonialShowcase({
+  testimonial,
+  src,
+  clipLabel = "01",
+  totalClips = 1,
+}: Props) {
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
 
@@ -31,7 +38,8 @@ export default function TestimonialShowcase({ testimonial, src }: Props) {
       <div className="flex flex-col gap-2 border-b-[3px] border-foreground bg-foreground px-3 py-2 text-background sm:flex-row sm:items-center sm:justify-between font-mono text-[10px] tracking-widest uppercase">
         <span className="inline-flex items-center gap-1.5">
           <Film className="h-3.5 w-3.5" strokeWidth={2.5} />
-          [ VIDEO / PROOF / 01 ]
+          [ VIDEO / PROOF / {clipLabel}
+          {totalClips > 1 ? ` · ${String(totalClips).padStart(2, "0")} CLIPS` : ""} ]
         </span>
         <span className="inline-flex items-center gap-2">
           <span className="relative flex h-2 w-2">

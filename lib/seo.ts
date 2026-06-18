@@ -1,6 +1,6 @@
 import { portfolio } from "@/data/portfolio";
 
-export const SITE_URL = "https://imkawsar.com";
+export const SITE_URL = "https://www.imkawsar.com";
 
 /** 150–160 chars — used in meta description, OG, and WebSite schema */
 export const seoDescription =

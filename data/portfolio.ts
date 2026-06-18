@@ -372,6 +372,14 @@ export const portfolio: Portfolio = {
         "Kawsar bridges product and engineering with rare clarity — he listens, ships on deadline, and stays composed when production pressure spikes.",
       video: "rahique.mp4",
     },
+    {
+      name: "Sidrat Limon",
+      role: "Project Manager",
+      org: "Wa-Mac",
+      quote:
+        "Kawsar makes my job easier — he breaks down backend complexity into clear milestones, flags risks early, and delivers on scope without us chasing status updates.",
+      video: "sidrat.mp4",
+    },
   ],
 
   mentorshipStats: [
