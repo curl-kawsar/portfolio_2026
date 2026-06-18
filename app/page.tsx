@@ -1,5 +1,5 @@
 import { portfolio } from "@/data/portfolio";
-import { seoDescription, seoKnowsAbout, SITE_URL } from "@/lib/seo";
+import { seoDescription, seoKnowsAbout, seoNameVariations, SITE_URL } from "@/lib/seo";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import LiveSiteMockboard from "@/components/LiveSiteMockboard";
@@ -24,6 +24,7 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: portfolio.name,
+  alternateName: seoNameVariations,
   url: SITE_URL,
   jobTitle: "Software Engineer",
   description: seoDescription,

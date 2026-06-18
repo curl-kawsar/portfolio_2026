@@ -6,9 +6,26 @@ export const SITE_URL = "https://imkawsar.com";
 export const seoDescription =
   "Backend software engineer from Cumilla, Bangladesh. Building multi-tenant SaaS, offline-first systems, and production APIs with Node.js, PostgreSQL, Redis, and Docker.";
 
+/** Common name spellings and search variants */
+export const seoNameVariations = [
+  "Kawsar",
+  "Kawchar",
+  "Kawser",
+  "Kawsar Ahmed",
+  "Kawchar Ahmed",
+  "Kawser Ahmed",
+  "Md Kawsar Ahmed",
+  "Md. Kawsar Ahmed",
+  "Md Kawchar Ahmed",
+  "Md Kawser Ahmed",
+  "Kawsar software engineer",
+  "Kawchar software engineer",
+  "Kawser software engineer",
+];
+
 export const seoKeywords = [
   portfolio.name,
-  "Kawsar Ahmed",
+  ...seoNameVariations,
   "Software Engineer",
   "Backend Engineer",
   "Backend Developer",
