@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { portfolio } from "@/data/portfolio";
+import { seoOgTagline } from "@/lib/seo";
 
 export const alt = `${portfolio.name} — ${portfolio.role}`;
 export const size = { width: 1200, height: 630 };
@@ -77,7 +78,7 @@ export default function Image() {
             fontWeight: 700,
           }}
         >
-          Backend · System Design · Data Science
+          {seoOgTagline}
         </div>
       </div>
     ),

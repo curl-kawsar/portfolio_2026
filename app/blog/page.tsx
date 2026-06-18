@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { getPublishedBlogPosts } from "@/lib/db";
 import { portfolio } from "@/data/portfolio";
+import { SITE_URL } from "@/lib/seo";
 import SectionHeading from "@/components/SectionHeading";
 import BlogPostCard from "@/components/blog/BlogPostCard";
 
-const siteUrl = "https://imkawsar.com";
 const title = "Blog";
 const description = `Writing on engineering, product, and building software by ${portfolio.name}.`;
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: `${siteUrl}/blog`,
+    url: `${SITE_URL}/blog`,
     type: "website",
     siteName: portfolio.name,
     images: [
@@ -45,13 +45,13 @@ const breadcrumbJsonLd = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: siteUrl,
+      item: SITE_URL,
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Blog",
-      item: `${siteUrl}/blog`,
+      item: `${SITE_URL}/blog`,
     },
   ],
 };

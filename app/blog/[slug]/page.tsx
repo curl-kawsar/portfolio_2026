@@ -4,13 +4,12 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getPublishedBlogPostBySlug } from "@/lib/db";
 import { portfolio } from "@/data/portfolio";
+import { SITE_URL } from "@/lib/seo";
 import BlogMarkdown from "@/components/blog/BlogMarkdown";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
-
-const siteUrl = "https://imkawsar.com";
 
 function formatDate(iso: string | null) {
   if (!iso) return "";
@@ -36,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: post.title,
       description,
-      url: `${siteUrl}${canonical}`,
+      url: `${SITE_URL}${canonical}`,
       type: "article",
       siteName: portfolio.name,
       publishedTime: post.published_at ?? post.created_at,
@@ -68,7 +67,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   if (!post) notFound();
 
-  const postUrl = `${siteUrl}/blog/${post.slug}`;
+  const postUrl = `${SITE_URL}/blog/${post.slug}`;
 
   const blogPostingJsonLd = {
     "@context": "https://schema.org",
@@ -81,12 +80,12 @@ export default async function BlogPostPage({ params }: Props) {
     author: {
       "@type": "Person",
       name: portfolio.name,
-      url: siteUrl,
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Person",
       name: portfolio.name,
-      url: siteUrl,
+      url: SITE_URL,
     },
   };
 
@@ -98,13 +97,13 @@ export default async function BlogPostPage({ params }: Props) {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: siteUrl,
+        item: SITE_URL,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: `${siteUrl}/blog`,
+        item: `${SITE_URL}/blog`,
       },
       {
         "@type": "ListItem",

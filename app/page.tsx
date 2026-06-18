@@ -1,4 +1,5 @@
 import { portfolio } from "@/data/portfolio";
+import { seoDescription, seoKnowsAbout, SITE_URL } from "@/lib/seo";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import LiveSiteMockboard from "@/components/LiveSiteMockboard";
@@ -19,17 +20,13 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
-const siteUrl = "https://imkawsar.com";
-const siteDescription = `${portfolio.role} based in ${portfolio.location}. Selected work in multi-tenant SaaS, offline-first systems, and backend infrastructure.`;
-
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: portfolio.name,
-  url: siteUrl,
+  url: SITE_URL,
   jobTitle: "Software Engineer",
-  description:
-    "Software Engineer specializing in backend systems and data science",
+  description: seoDescription,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Cumilla",
@@ -40,21 +37,15 @@ const personJsonLd = {
     "@type": "CollegeOrUniversity",
     name: "Bangladesh Army International University of Science and Technology",
   },
-  knowsAbout: [
-    "Backend Engineering",
-    "System Design",
-    "Data Science",
-    "Node.js",
-    "Python",
-  ],
+  knowsAbout: seoKnowsAbout,
 };
 
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: portfolio.name,
-  url: siteUrl,
-  description: siteDescription,
+  url: SITE_URL,
+  description: seoDescription,
 };
 
 export default function Page() {

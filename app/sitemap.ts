@@ -1,16 +1,17 @@
 import type { MetadataRoute } from "next";
 import { getPublishedBlogPosts } from "@/lib/db";
+import { SITE_URL } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     {
-      url: "https://imkawsar.com",
+      url: SITE_URL,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1.0,
     },
     {
-      url: "https://imkawsar.com/blog",
+      url: `${SITE_URL}/blog`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
@@ -20,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const posts = await getPublishedBlogPosts();
     const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-      url: `https://imkawsar.com/blog/${post.slug}`,
+      url: `${SITE_URL}/blog/${post.slug}`,
       lastModified: new Date(post.updated_at),
       changeFrequency: "monthly",
       priority: 0.7,

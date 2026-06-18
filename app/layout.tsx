@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { portfolio } from "@/data/portfolio";
 import { getGalleryLoveState } from "@/lib/db";
+import { seoDescription, seoKeywords, SITE_URL } from "@/lib/seo";
 import LoveShell from "@/components/LoveShell";
 
 const inter = Inter({
@@ -19,30 +20,21 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 const defaultTitle = `${portfolio.name} — ${portfolio.role}`;
-const description = `${portfolio.role} based in ${portfolio.location}. Selected work in multi-tenant SaaS, offline-first systems, and backend infrastructure.`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://imkawsar.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: defaultTitle,
     template: `%s — ${portfolio.name}`,
   },
-  description,
-  keywords: [
-    portfolio.name,
-    "Software Engineer",
-    "Data Science",
-    "Backend",
-    "Multi-tenant SaaS",
-    "Hackathon Champion",
-    "Bangladesh",
-  ],
+  description: seoDescription,
+  keywords: seoKeywords,
   authors: [{ name: portfolio.name }],
   alternates: { canonical: "/" },
   openGraph: {
     title: defaultTitle,
-    description,
-    url: "https://imkawsar.com",
+    description: seoDescription,
+    url: SITE_URL,
     type: "profile",
     locale: "en_US",
     siteName: portfolio.name,
@@ -58,7 +50,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
-    description,
+    description: seoDescription,
     images: ["/opengraph-image"],
   },
 };
