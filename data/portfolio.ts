@@ -78,6 +78,15 @@ export type MentorshipActivity = {
   bullets: string[];
 };
 
+export type IncidentEntry = {
+  title: string;
+  org: string;
+  period?: string;
+  severity: string;
+  metric: string;
+  bullets: string[];
+};
+
 export type Portfolio = {
   name: string;
   role: string;
@@ -100,6 +109,8 @@ export type Portfolio = {
   testimonials: Testimonial[];
   mentorshipStats: MentorshipStat[];
   mentorshipActivities: MentorshipActivity[];
+  incidentIntro: string;
+  incidents: IncidentEntry[];
 };
 
 export const portfolio: Portfolio = {
@@ -415,6 +426,51 @@ export const portfolio: Portfolio = {
         "Designed and ran the **Prompt Engineering** track — briefs, rubric, and live mentoring during the contest.",
         "Crafted problems that test **practical LLM workflows** — chaining, evaluation, and clear success criteria.",
         "Mentored participants on prompt design and presenting working solutions within the time limit.",
+      ],
+    },
+  ],
+
+  incidentIntro:
+    "I love **incident response** and working under pressure. When systems fail, I don't panic — I **debug, communicate, and restore**. Outages are uncomfortable; they're also where the best engineers show up.",
+
+  incidents: [
+    {
+      title: "Live Platform Crash — Prompt Engineering Contest",
+      org: "BAIUST CSE Spring Fest 2026",
+      period: "2026",
+      severity: "P1 · LIVE EVENT",
+      metric: "Mid-contest **server crash** · debugged, **rate-limited**, and **restored** the platform",
+      bullets: [
+        "During the **Prompt Engineering contest**, our server crashed under contest traffic — participants were mid-submission and the clock was running.",
+        "Led **end-to-end debugging**: traced load spikes, stabilized services, and added **rate limits** so the API could survive burst traffic without falling over again.",
+        "Spun up **redundant hosting** across the **university server room** and a **Hostinger VPS**, routed traffic, and brought the platform back online so the segment could finish.",
+        "Coordinated with faculty and volunteers on status updates so teams knew what was happening instead of guessing.",
+      ],
+    },
+    {
+      title: "Compromised VPS — Unauthorized Crypto Mining",
+      org: "Wa-Mac · Office Production",
+      period: "2024",
+      severity: "P1 · INTRUSION",
+      metric: "**Root compromise** · mining malware removed · **WireGuard VPN + SSH key** access only",
+      bullets: [
+        "Our office **VPS was hacked** — an attacker had access and started **crypto mining** on production infrastructure.",
+        "Contained the breach: killed malicious processes, audited running services, rotated credentials, and verified no persistence mechanisms were left behind.",
+        "**Disabled root SSH login**, created a **dedicated deploy user** with least privilege, and locked down sudo to what operations actually need.",
+        "Stood up a **WireGuard (wg) VPN server** — team access to the VPS runs through a **WireGuard tunnel** only, with **SSH public/private key** auth and no password logins or wide-open port 22 on the public internet.",
+      ],
+    },
+    {
+      title: "MongoDB Public Exposure — Misconfigured Port",
+      org: "Wa-Mac · Production Database",
+      period: "2025",
+      severity: "P1 · DATA EXPOSURE",
+      metric: "**MongoDB port exposed** to the internet · **full data recovery**",
+      bullets: [
+        "A **junior developer** accidentally left **MongoDB publicly accessible** — the database port was open to the world instead of bound to localhost or a private network.",
+        "Detected suspicious access patterns, **locked down firewall rules** immediately, and closed every path that shouldn't have been reachable from outside.",
+        "**Recovered all data** from backups and verified integrity before bringing services back — no silent corruption, no guessing about what was lost.",
+        "Documented the fix, added **checklist gates** for deploys, and walked the team through why exposed database ports are a production incident, not a small mistake.",
       ],
     },
   ],

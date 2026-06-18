@@ -11,7 +11,7 @@ export default function ContactSection() {
       id="contact"
       className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
-      <SectionHeading index="12" label="Contact" />
+      <SectionHeading index="13" label="Contact" />
 
       <Reveal>
         <div className="relative border-[3px] border-foreground bg-accent text-foreground p-6 sm:p-8 brutal-shadow">

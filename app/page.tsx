@@ -10,6 +10,7 @@ import GallerySection from "@/components/GallerySection";
 import BlogTeaserSection from "@/components/BlogTeaserSection";
 import SpeakingMentorshipSection from "@/components/SpeakingMentorshipSection";
 import LeadershipSection from "@/components/LeadershipSection";
+import IncidentManagementSection from "@/components/IncidentManagementSection";
 import SkillsSection from "@/components/SkillsSection";
 import EducationSection from "@/components/EducationSection";
 import ReferencesSection from "@/components/ReferencesSection";
@@ -35,6 +36,10 @@ export default function Page() {
         />
         <RecognitionSection />
         <GallerySection />
+        <IncidentManagementSection
+          intro={portfolio.incidentIntro}
+          incidents={portfolio.incidents}
+        />
         <BlogTeaserSection />
         <SpeakingMentorshipSection
           stats={portfolio.mentorshipStats}
@@ -42,6 +47,7 @@ export default function Page() {
         />
         {/* <TestimonialsSection /> */}
         <LeadershipSection roles={portfolio.leadership} />
+        
         <EducationSection />
         <ReferencesSection />
         <ContactSection />

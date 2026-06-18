@@ -111,7 +111,7 @@ export default function EducationSection() {
       id="education"
       className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
-      <SectionHeading index="10" label="Education" />
+      <SectionHeading index="11" label="Education" />
 
       <div className="relative mt-6">
         <span

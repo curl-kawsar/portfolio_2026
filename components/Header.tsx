@@ -9,6 +9,7 @@ import {
   Users,
   Wrench,
   GraduationCap,
+  ShieldAlert,
   Mail,
   ArrowUpRight,
   Terminal,
@@ -26,8 +27,9 @@ const NAV = [
   { href: "#blog", label: "Blog", n: "07", Icon: FileText },
   { href: "#mentorship", label: "Mentor", n: "08", Icon: Mic },
   { href: "#leadership", label: "Lead", n: "09", Icon: Users },
-  { href: "#education", label: "Edu", n: "10", Icon: GraduationCap },
-  { href: "#contact", label: "Mail", n: "12", Icon: Mail },
+  { href: "#incidents", label: "Ops", n: "10", Icon: ShieldAlert },
+  { href: "#education", label: "Edu", n: "11", Icon: GraduationCap },
+  { href: "#contact", label: "Mail", n: "13", Icon: Mail },
 ];
 
 export default function Header() {
