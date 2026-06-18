@@ -61,7 +61,7 @@ export type Testimonial = {
   role: string;
   org: string;
   quote: string;
-  /** Filename inside /public/testimonial/ (e.g. nayeem.mp4). */
+  /** Filename inside /public/testimonial/ (e.g. rahique.mp4). */
   video: string;
 };
 
@@ -365,20 +365,12 @@ export const portfolio: Portfolio = {
 
   testimonials: [
     {
-      name: "Golam Moktader Nayeem",
-      role: "Dean (Acting), Faculty of ECE · Associate Professor, Dept. of CSE",
-      org: "BAIUST, Cumilla",
+      name: "Md. Rahique Osman",
+      role: "Product Designer",
+      org: "Wa-Mac",
       quote:
-        "Kawsar shows strong engineering discipline, campus leadership, and the ability to ship real systems — not just coursework.",
-      video: "nayeem.mp4",
-    },
-    {
-      name: "Md. Khorshed Alam Molla",
-      role: "Senior Manager & Head – ROC Cumilla",
-      org: "Brac Bank, ChawkBazar",
-      quote:
-        "A dependable engineer who communicates clearly, meets deadlines, and handles production pressure with composure.",
-      video: "molla.mp4",
+        "Kawsar bridges product and engineering with rare clarity — he listens, ships on deadline, and stays composed when production pressure spikes.",
+      video: "rahique.mp4",
     },
   ],
 

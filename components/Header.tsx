@@ -26,10 +26,10 @@ const NAV = [
   { href: "#recognition", label: "Awards", n: "05", Icon: Trophy },
   { href: "#blog", label: "Blog", n: "07", Icon: FileText },
   { href: "#mentorship", label: "Mentor", n: "08", Icon: Mic },
-  { href: "#leadership", label: "Lead", n: "09", Icon: Users },
-  { href: "#incidents", label: "Ops", n: "10", Icon: ShieldAlert },
-  { href: "#education", label: "Edu", n: "11", Icon: GraduationCap },
-  { href: "#contact", label: "Mail", n: "13", Icon: Mail },
+  { href: "#leadership", label: "Lead", n: "10", Icon: Users },
+  { href: "#incidents", label: "Ops", n: "11", Icon: ShieldAlert },
+  { href: "#education", label: "Edu", n: "12", Icon: GraduationCap },
+  { href: "#contact", label: "Mail", n: "14", Icon: Mail },
 ];
 
 export default function Header() {

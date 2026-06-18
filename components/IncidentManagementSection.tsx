@@ -91,7 +91,7 @@ export default function IncidentManagementSection({ intro, incidents }: Props) {
       id="incidents"
       className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
-      <SectionHeading index="10" label="Incident Management" />
+      <SectionHeading index="11" label="Incident Management" />
 
       <Reveal>
         <blockquote className="mb-8 border-[3px] border-foreground bg-foreground text-background p-5 font-mono text-sm tracking-wide text-justify [&_strong]:text-accent">

@@ -36,6 +36,7 @@ export default function Page() {
           subcaption="REAL-TIME IFRAME · SCROLL TO EXPLORE"
         />
         <RecognitionSection />
+        <TestimonialsSection />
         <GallerySection />
         <IncidentManagementSection
           intro={portfolio.incidentIntro}
@@ -47,7 +48,7 @@ export default function Page() {
           activities={portfolio.mentorshipActivities}
         />
         <YouTubePlaylistSection playlist={portfolio.youtubePlaylist} />
-        {/* <TestimonialsSection /> */}
+        
         <LeadershipSection roles={portfolio.leadership} />
         
         <EducationSection />

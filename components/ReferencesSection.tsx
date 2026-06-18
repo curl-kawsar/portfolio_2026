@@ -59,7 +59,7 @@ export default function ReferencesSection() {
       id="references"
       className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-14 scroll-mt-28"
     >
-      <SectionHeading index="12" label="References" />
+      <SectionHeading index="13" label="References" />
 
       <div className="border-[3px] border-foreground bg-card brutal-shadow">
         <div className="flex items-center justify-between border-b-[2px] border-foreground bg-foreground text-background px-3 py-1.5 font-mono text-[10px] tracking-widest uppercase">
