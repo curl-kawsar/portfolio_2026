@@ -49,9 +49,9 @@ export default async function BlogTeaserSection() {
           </div>
         </Reveal>
       ) : (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-2 lg:grid-cols-3">
           {latest.map((post, i) => (
-            <Reveal key={post.id} delay={i * 60}>
+            <Reveal key={post.id} delay={i * 60} className="h-full">
               <BlogPostCard post={post} index={i} />
             </Reveal>
           ))}
