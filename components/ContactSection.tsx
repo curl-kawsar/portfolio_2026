@@ -1,5 +1,6 @@
 import { Mail, Phone, ArrowUpRight, MailPlus, Handshake } from "lucide-react";
 import { LinkedinIcon } from "./icons/LinkedinIcon";
+import { YoutubeIcon } from "./icons/YoutubeIcon";
 import { portfolio } from "@/data/portfolio";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
@@ -71,12 +72,12 @@ export default function ContactSection() {
             <span>~/kawsar/contact.json</span>
             <span className="inline-flex items-center gap-1.5">
               <Mail className="h-3 w-3" strokeWidth={2.5} />
-              3 channels
+              4 channels
             </span>
           </div>
 
-          <ul className="grid grid-cols-1 sm:grid-cols-3 font-mono text-sm">
-            <li className="border-b-2 sm:border-b-0 sm:border-r-2 border-foreground">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 font-mono text-sm">
+            <li className="border-b-2 sm:border-b-0 lg:border-r-2 border-foreground">
               <a
                 href={`mailto:${portfolio.email}`}
                 className="group block px-4 py-3 hover:bg-foreground hover:text-background"
@@ -90,7 +91,7 @@ export default function ContactSection() {
                 </span>
               </a>
             </li>
-            <li className="border-b-2 sm:border-b-0 sm:border-r-2 border-foreground">
+            <li className="border-b-2 sm:border-b-0 lg:border-r-2 border-foreground">
               <a
                 href={`tel:${portfolio.phone}`}
                 className="group block px-4 py-3 hover:bg-foreground hover:text-background"
@@ -101,6 +102,23 @@ export default function ContactSection() {
                 </span>
                 <span className="mt-1 block text-[13px]">
                   {portfolio.phone}
+                </span>
+              </a>
+            </li>
+            <li className="border-b-2 sm:border-b-0 lg:border-r-2 border-foreground">
+              <a
+                href={portfolio.youtubePlaylist.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block px-4 py-3 hover:bg-foreground hover:text-background"
+              >
+                <span className="block text-[10px] tracking-widest uppercase text-muted group-hover:text-background inline-flex items-center gap-1.5">
+                  <YoutubeIcon className="h-3 w-3" />
+                  V / YOUTUBE
+                </span>
+                <span className="mt-1 block text-[13px] inline-flex items-center gap-1.5">
+                  Playlist
+                  <ArrowUpRight className="h-3 w-3" strokeWidth={2.5} />
                 </span>
               </a>
             </li>
@@ -126,7 +144,7 @@ export default function ContactSection() {
           <div className="flex items-center justify-between border-t-[2px] border-foreground bg-foreground text-background px-3 py-1.5 font-mono text-[10px] tracking-widest uppercase">
             <span>UTF-8</span>
             <span>JSON</span>
-            <span>3 keys</span>
+            <span>4 keys</span>
           </div>
         </div>
       </Reveal>

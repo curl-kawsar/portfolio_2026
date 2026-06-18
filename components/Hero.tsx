@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, Terminal, FileText, Handshake, ArrowUpRight } from
 import { portfolio } from "@/data/portfolio";
 import Reveal from "./Reveal";
 import { LinkedinIcon } from "./icons/LinkedinIcon";
+import { YoutubeIcon } from "./icons/YoutubeIcon";
 export default function Hero() {
   const hasPhoto = Boolean(portfolio.photoUrl);
 
@@ -108,8 +109,8 @@ export default function Hero() {
 
         {/* Contact quick-links board — full width, segmented */}
         <Reveal className="col-span-12 order-4" delay={220}>
-          <ul className="grid grid-cols-1 sm:grid-cols-3 border-[3px] border-foreground bg-card font-mono text-sm">
-            <li className="border-b-2 sm:border-b-0 sm:border-r-2 border-foreground">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-[3px] border-foreground bg-card font-mono text-sm">
+            <li className="border-b-2 sm:border-b-0 lg:border-r-2 border-foreground">
               <a
                 href={`mailto:${portfolio.email}`}
                 className="group block px-4 py-3 hover:bg-foreground hover:text-background"
@@ -121,7 +122,7 @@ export default function Hero() {
                 <span className="block mt-1 text-[13px]">{portfolio.email}</span>
               </a>
             </li>
-            <li className="border-b-2 sm:border-b-0 sm:border-r-2 border-foreground">
+            <li className="border-b-2 sm:border-b-0 lg:border-r-2 border-foreground">
               <a
                 href={`tel:${portfolio.phone}`}
                 className="group block px-4 py-3 hover:bg-foreground hover:text-background"
@@ -131,6 +132,22 @@ export default function Hero() {
                   T / PHONE
                 </span>
                 <span className="block mt-1 text-[13px]">{portfolio.phone}</span>
+              </a>
+            </li>
+            <li className="border-b-2 sm:border-b-0 lg:border-r-2 border-foreground">
+              <a
+                href={portfolio.youtubePlaylist.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block px-4 py-3 hover:bg-foreground hover:text-background"
+              >
+                <span className="block text-[10px] tracking-widest uppercase text-muted group-hover:text-background inline-flex items-center gap-1.5">
+                  <YoutubeIcon className="h-3 w-3" />
+                  V / YOUTUBE
+                </span>
+                <span className="block mt-1 text-[13px]">
+                  Watch playlist ↗
+                </span>
               </a>
             </li>
             <li>

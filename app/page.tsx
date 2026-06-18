@@ -9,6 +9,7 @@ import RecognitionSection from "@/components/RecognitionSection";
 import GallerySection from "@/components/GallerySection";
 import BlogTeaserSection from "@/components/BlogTeaserSection";
 import SpeakingMentorshipSection from "@/components/SpeakingMentorshipSection";
+import YouTubePlaylistSection from "@/components/YouTubePlaylistSection";
 import LeadershipSection from "@/components/LeadershipSection";
 import IncidentManagementSection from "@/components/IncidentManagementSection";
 import SkillsSection from "@/components/SkillsSection";
@@ -45,6 +46,7 @@ export default function Page() {
           stats={portfolio.mentorshipStats}
           activities={portfolio.mentorshipActivities}
         />
+        <YouTubePlaylistSection playlist={portfolio.youtubePlaylist} />
         {/* <TestimonialsSection /> */}
         <LeadershipSection roles={portfolio.leadership} />
         

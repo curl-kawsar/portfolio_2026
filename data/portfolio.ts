@@ -87,6 +87,13 @@ export type IncidentEntry = {
   bullets: string[];
 };
 
+export type YouTubePlaylist = {
+  url: string;
+  playlistId: string;
+  title: string;
+  description: string;
+};
+
 export type Portfolio = {
   name: string;
   role: string;
@@ -95,6 +102,7 @@ export type Portfolio = {
   email: string;
   phone: string;
   linkedin: string;
+  youtubePlaylist: YouTubePlaylist;
   resumeUrl: string;
   /** Live site embedded in the MacBook Mockboard section. */
   liveSiteUrl: string;
@@ -121,6 +129,13 @@ export const portfolio: Portfolio = {
   email: "knownaskawsar@gmail.com",
   phone: "01847556023",
   linkedin: "https://www.linkedin.com/in/curl-kawsar/",
+  youtubePlaylist: {
+    url: "https://www.youtube.com/watch?v=0yzi36qvUdI&list=PLZ7L7qh1fEwY5QiEPFJcjnbFJWxVjYS_r",
+    playlistId: "PLZ7L7qh1fEwY5QiEPFJcjnbFJWxVjYS_r",
+    title: "YouTube Playlist",
+    description:
+      "Engineering talks, walkthroughs, and sessions — system design, shipping under pressure, and lessons from building in production.",
+  },
   resumeUrl: "/resume_kawsar.pdf",
   liveSiteUrl: "https://edokandar.cloud/",
 
