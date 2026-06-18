@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { portfolio } from "@/data/portfolio";
 import Reveal from "./Reveal";
 import ImageWatermark from "./ImageWatermark";
 import GalleryLoveIcon from "./GalleryLoveIcon";
@@ -63,7 +64,7 @@ export default function GalleryGrid({ photos }: Props) {
               <div className="relative isolate aspect-square w-full overflow-hidden border-b-[3px] border-foreground bg-background">
                 <Image
                   src={`/hackathons/${file}`}
-                  alt={`Photo ${i + 1}`}
+                  alt={`${portfolio.name} at a hackathon event - photo ${i + 1}`}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="pointer-events-none object-cover"
@@ -121,7 +122,7 @@ export default function GalleryGrid({ photos }: Props) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/hackathons/${activePhoto}`}
-                alt={`Photo ${activeIndex + 1}`}
+                alt={`${portfolio.name} at a hackathon event - photo ${activeIndex + 1}`}
                 className="block max-h-[75vh] max-w-[88vw] h-auto w-auto"
                 decoding="async"
               />

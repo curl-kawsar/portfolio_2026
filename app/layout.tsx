@@ -18,11 +18,15 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const title = `${portfolio.name} — ${portfolio.role}`;
+const defaultTitle = `${portfolio.name} — ${portfolio.role}`;
 const description = `${portfolio.role} based in ${portfolio.location}. Selected work in multi-tenant SaaS, offline-first systems, and backend infrastructure.`;
 
 export const metadata: Metadata = {
-  title,
+  metadataBase: new URL("https://imkawsar.com"),
+  title: {
+    default: defaultTitle,
+    template: `%s — ${portfolio.name}`,
+  },
   description,
   keywords: [
     portfolio.name,
@@ -34,17 +38,28 @@ export const metadata: Metadata = {
     "Bangladesh",
   ],
   authors: [{ name: portfolio.name }],
+  alternates: { canonical: "/" },
   openGraph: {
-    title,
+    title: defaultTitle,
     description,
+    url: "https://imkawsar.com",
     type: "profile",
     locale: "en_US",
     siteName: portfolio.name,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: defaultTitle,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title,
+    title: defaultTitle,
     description,
+    images: ["/opengraph-image"],
   },
 };
 
